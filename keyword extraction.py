@@ -8,10 +8,10 @@ Created on Tue Apr  6 20:01:46 2021
 import pandas as pd
 
 #df = pd.read_csv (r'C:\Users\yuanm\Documents\School Documents\CLPS 0950\Python\CLPS0950FinalProject\CLPS0950FinalProject\netflix_titles.csv')
-df = pd.read_csv (r'C:\Users\kennedywaite\Documents\PYTHON ANACONDA\CLPS0950FinalProject\netflix_titles.csv')
+df = pd.read_csv (r'C:\Users\Kennedy Waite\Documents\PYTHON ANACONDA\CLPS0950FinalProject\netflix_titles.csv')
 print(df)
 
-df = pd.read_csv (r'C:\Users\kennedywaite\Documents\PYTHON ANACONDA\CLPS0950FinalProject\netflix_titles.csv')
+
 
 import numpy
 from nltk import tokenize
