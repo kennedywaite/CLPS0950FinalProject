@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv (r'C:\Users\yuanm\Documents\School Documents\CLPS 0950\Python\CLPS0950FinalProject\CLPS0950FinalProject\netflix_titles.csv')
+df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
 #print(df)
 
 #loop through pandas DataFrame "listedin" column of genres and add genres
