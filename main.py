@@ -1,7 +1,10 @@
+#main file to call table extraction functions
+
+import pandas as pd
+
 #this function makes a list of all the different unique types of a category
 #listed in
-
-def category_extraction(dataF,col_num):
+def category_extraction(dataF, col_num):
 #loop through pandas DataFrame "listedin" column of genres and add genres
 #to netflix_genres list
     netflix_genres = []
@@ -19,3 +22,15 @@ def category_extraction(dataF,col_num):
                 category_list.append(phrases[y])
 
     return(category_list)
+
+df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
+print(df)
+
+genres_col = 10
+director_col = 3
+actor_col = 4
+country_col = 5
+release_col = 7
+duration_col = 9
+
+genre_list = category_extraction(df,genres_col)
