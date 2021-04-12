@@ -2,6 +2,9 @@
 
 import pandas as pd
 
+df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
+print(df)
+
 #this function makes a list of all the different unique types of a category
 #listed in
 def category_extraction(dataF, col_num):
@@ -23,8 +26,6 @@ def category_extraction(dataF, col_num):
 
     return(category_list)
 
-df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
-print(df)
 
 genres_col = 10
 director_col = 3
