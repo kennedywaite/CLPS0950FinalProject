@@ -35,4 +35,9 @@ duration_col = 9
 
 genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)
-print(director_list)
+#print(director_list)
+
+
+actor_list = category_extraction(df,actor_col)
+print(actor_list)
+
