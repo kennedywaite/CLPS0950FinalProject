@@ -15,7 +15,7 @@ def category_extraction(dataF, col_num):
 #creates a list of all the unique items from list of entries in col_num column
     category_list = []
     for x in range(0,len(list_items)):
-        if (list_items[x] != ''):
+        if (type(list_items[x]) != float):
             text = list_items[x]
             phrases = text.split(",")
             for y in range(0,len(phrases)):
