@@ -25,7 +25,6 @@ def category_extraction(dataF, col_num):
 
     return(category_list)
 
-
 genres_col = 10
 director_col = 3
 actor_col = 4
@@ -37,5 +36,9 @@ genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)
 actor_list = category_extraction(df,actor_col)
 length = category_extraction(df,duration_col)
-print(length)
+print(genre_list)
 
+#for x in range(0,7787):
+   # text = df.iat[x,genres_col]
+    #if *user's input* in text:
+      # print(df.iat[x,2])
