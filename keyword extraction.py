@@ -24,7 +24,6 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 stop_words = set(stopwords.words('english'))
-
 total_words = doc.split()
 total_word_length = len(total_words)
 #print(total_word_length)

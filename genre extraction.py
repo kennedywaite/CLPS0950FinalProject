@@ -7,6 +7,7 @@ def category_extraction(dataF,col_num):
     netflix_genres = []
     for x in range(0,7787):
         netflix_genres.append(dataF.iat[x,col_num])
+        
     
 #creates a list of all the unique genres from the Netflix titles dataset
     category_list = []

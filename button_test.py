@@ -7,9 +7,11 @@ class Application(tk.Frame):
         super().__init__(master)
         self.master = master
         self.pack()
+        counter = 0
        
         for x in ran_list:
-            self.create_widgets(str(x))
+            self.create_widgets(str(x), counter)
+            counter = counter+1
         
         
         self.create_quit()
@@ -20,11 +22,12 @@ class Application(tk.Frame):
         print(str(m_title))
     
         
-    def create_widgets(self, m_title):
+    def create_widgets(self, count, m_title):
         self.button = tk.Button(self, command =lambda: self.list_movie(m_title))
         self.button["text"] = str(m_title)
       
         self.button.pack(side="top")
+        self.button.grid(row = count, column = count)
         #Instead create a variable that takes the output from the button click 
         #and sets that variable as the input for the 'tag' corresponding with
         #each show's title
