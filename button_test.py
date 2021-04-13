@@ -5,16 +5,16 @@ class Application(tk.Frame):
     def __init__(self, ran_list, master=None):
         super().__init__(master)
         self.master = master
-        self.pack()
+        self.pack(fill=tk.BOTH,expand=True)
         counter=0
-        master.geometry("300x500")
-        
+        #master.geometry("300x500")
+        self.create_quit()
+
         for x in ran_list:
             self.create_widgets(str(x), counter)
             counter = counter+1
         
-        self.create_quit()
-        
+                
     def list_movie(self, m_title):
 
 
@@ -25,13 +25,18 @@ class Application(tk.Frame):
         self.button = tk.Button(self, command =lambda: self.list_movie(m_title))
         self.button["text"] = str(m_title)
       
-        self.button.pack(side="top")
-        
+        if (counter%3==0):
+            self.button.pack(side=tk.TOP,expand=True)
+        elif (counter%3==1):
+            self.button.pack(side=tk.LEFT,expand=True)
+        else:
+            self.button.pack(side=tk.BOTTOM,expand=True)
+            
         #self.button = tk.set_location(counter)
-        real_row = counter/5 - 1
-        real_col = counter%5 - 1
+        #real_row = counter/5 - 1
+        #real_col = counter%5 - 1
         #real_row, real_col = self.set_location(self, counter)
-        self.button.grid(real_row,real_col)
+        #self.button.grid(real_row,real_col)
         #Instead create a variable that takes the output from the button click 
         #and sets that variable as the input for the 'tag' corresponding with
         #each show's title
@@ -48,7 +53,7 @@ class Application(tk.Frame):
      
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.pack(side="bottom")
+        self.quit.pack(side="top")
 
    
         
