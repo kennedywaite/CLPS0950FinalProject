@@ -2,28 +2,20 @@ import tkinter as tk
 import pandas as pd
 
 class Application(tk.Frame):
-    def __init__(self, ran_list, master=None):
+    def __init__(self, dataFrame, ran_list, master=None):
         super().__init__(master)
         self.master = master
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         #master.geometry("300x500")
         self.create_quit()
-
         for x in ran_list:
-            self.create_widgets(str(x), counter)
+            self.create_genre_widgets(str(x), counter)
             counter = counter+1
-        
-                
-    def list_movie(self, m_title):
 
-
-        print(str(m_title))
-    
-        
-    def create_widgets(self, m_title, counter):
-        self.button = tk.Button(self, command =lambda: self.list_movie(m_title))
-        self.button["text"] = str(m_title)
+    def create_genre_widgets(self, m_title, counter):
+        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title))
+        #self.button["text"] = str(m_title)
       
         if (counter%3==0):
             self.button.pack(side=tk.TOP,expand=True)
@@ -32,6 +24,7 @@ class Application(tk.Frame):
         else:
             self.button.pack(side=tk.BOTTOM,expand=True)
             
+        
         #self.button = tk.set_location(counter)
         #real_row = counter/5 - 1
         #real_col = counter%5 - 1
@@ -42,13 +35,25 @@ class Application(tk.Frame):
         #each show's title
         #Do this without breaking this code though, read up on TKinter's documentation
 
-    def set_location(self, counter):
-        row = counter/5 - 1
-        col = counter%5 - 1
-        return row, col
+    #def set_location(self, counter):
+    #    row = counter/5 - 1
+    #    col = counter%5 - 1
+    #    return row, col
         
-        
-        
+    #create an ok button that when clicked, it will take all the options and move
+    #to a different page where all the Netflix titles of those options will appear
+    #def create_OK(self):
+    
+    def genre_clicked(self, m_title):
+        self.button.configure(bg="red")
+        user_input = str(m_title)
+        output_list = []
+        for x in range(0,7787):
+            text = df.iat[x,genres_col]
+            if user_input in text:
+                output_list.append(df.iat[x,2])
+        print(output_list)
+            
     def create_quit(self):
      
         self.quit = tk.Button(self, text="QUIT", fg="red",
@@ -87,5 +92,5 @@ genres_col = 10
 genre_list = category_extraction(df,genres_col)
 
 root = tk.Tk()
-app = Application(genre_list, master=root)
+app = Application(df, genre_list, master=root)
 app.mainloop()
