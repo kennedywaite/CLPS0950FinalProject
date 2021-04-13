@@ -8,6 +8,7 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         counter = 0
+        master.geometry("300x500")
        
         for x in ran_list:
             self.create_widgets(str(x), counter)
@@ -22,17 +23,24 @@ class Application(tk.Frame):
         print(str(m_title))
     
         
-    def create_widgets(self, count, m_title):
+    def create_widgets(self, counter, m_title):
         self.button = tk.Button(self, command =lambda: self.list_movie(m_title))
         self.button["text"] = str(m_title)
       
         self.button.pack(side="top")
-        self.button.grid(row = count, column = count)
+        real_row, real_col = self.button.set_location(counter)
+        self.button.grid(real_row,real_col)
         #Instead create a variable that takes the output from the button click 
         #and sets that variable as the input for the 'tag' corresponding with
         #each show's title
         #Do this without breaking this code though, read up on TKinter's documentation
 
+    def set_location(counter):
+        row = counter/5 - 1
+        col = counter%5 - 1
+        return row, col
+        
+        
         
         
     def create_quit(self):
