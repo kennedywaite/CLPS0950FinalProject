@@ -14,7 +14,6 @@ class Application(tk.Frame):
             self.create_widgets(str(x), counter)
             counter = counter+1
         
-        
         self.create_quit()
         
     def list_movie(self, m_title):
@@ -28,6 +27,8 @@ class Application(tk.Frame):
         self.button["text"] = str(m_title)
       
         self.button.pack(side="top")
+        
+        #self.button = tk.set_location(counter)
         real_row, real_col = self.button.set_location(counter)
         self.button.grid(real_row,real_col)
         #Instead create a variable that takes the output from the button click 
@@ -39,7 +40,6 @@ class Application(tk.Frame):
         row = counter/5 - 1
         col = counter%5 - 1
         return row, col
-        
         
         
         
