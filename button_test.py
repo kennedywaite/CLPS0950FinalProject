@@ -23,7 +23,7 @@ class Application(tk.Frame):
         print(str(m_title))
     
         
-    def create_widgets(self, counter, m_title):
+    def create_widgets(self, m_title, counter):
         self.button = tk.Button(self, command =lambda: self.list_movie(m_title))
         self.button["text"] = str(m_title)
       
