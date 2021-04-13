@@ -1,13 +1,12 @@
 import tkinter as tk
 import pandas as pd
 
-
 class Application(tk.Frame):
     def __init__(self, ran_list, master=None):
         super().__init__(master)
         self.master = master
         self.pack()
-        counter = 0
+        counter=0
         master.geometry("300x500")
        
         for x in ran_list:
@@ -29,14 +28,16 @@ class Application(tk.Frame):
         self.button.pack(side="top")
         
         #self.button = tk.set_location(counter)
-        real_row, real_col = self.button.set_location(counter)
+        real_row = counter/5 - 1
+        real_col = counter%5 - 1
+        #real_row, real_col = self.set_location(self, counter)
         self.button.grid(real_row,real_col)
         #Instead create a variable that takes the output from the button click 
         #and sets that variable as the input for the 'tag' corresponding with
         #each show's title
         #Do this without breaking this code though, read up on TKinter's documentation
 
-    def set_location(counter):
+    def set_location(self, counter):
         row = counter/5 - 1
         col = counter%5 - 1
         return row, col
