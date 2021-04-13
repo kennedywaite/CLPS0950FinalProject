@@ -9,6 +9,7 @@ class Application(tk.Frame):
         counter=0
         master.geometry("300x500")
        
+        
         for x in ran_list:
             self.create_widgets(str(x), counter)
             counter = counter+1
