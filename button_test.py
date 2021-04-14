@@ -2,8 +2,8 @@ import tkinter as tk
 import pandas as pd
 
 class Application(tk.Frame):
-    button_identities = [] 
-    def __init__(self, dataFrame, ran_list, master=None):
+    
+    def __init__(self, dataFrame, ran_list, button_identities, master=None):
         super().__init__(master)
         self.master = master
         self.pack(fill=tk.BOTH,expand=True)
@@ -11,10 +11,10 @@ class Application(tk.Frame):
         #master.geometry("300x500")
         self.create_quit()
         for x in ran_list:
-            self.create_genre_widgets(str(x), counter)
+            self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
             
-    def genre_clicked(self, m_title, num, button_identities):
+    def genre_clicked(self, m_title, button_identities,counter):
         user_input = str(m_title)
         output_list = []
         for x in range(0,7787):
@@ -23,13 +23,13 @@ class Application(tk.Frame):
                 output_list.append(df.iat[x,2])
         print(output_list)
         #self.button.configure(bg="red")
-        button_name = (button_identities[num])
-        self.button_name.configure(bg="red")
+        button_name = (button_identities[counter])
+        button_name.configure(bg="red")
 
     def create_genre_widgets(self, m_title, counter, button_identities):
-        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title))
-        #self.button["text"] = str(m_title)
         
+        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
+        #self.button["text"] = str(m_title)
       
         if (counter%3==0):
             self.button.pack(side=tk.TOP,expand=True)
@@ -96,7 +96,8 @@ df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950Final
 genres_col = 10
         
 genre_list = category_extraction(df,genres_col)
+button_identities = [] 
 
 root = tk.Tk()
-app = Application(df, genre_list, master=root)
+app = Application(df, genre_list, button_identities, master=root)
 app.mainloop()
