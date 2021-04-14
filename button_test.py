@@ -2,6 +2,7 @@ import tkinter as tk
 import pandas as pd
 
 class Application(tk.Frame):
+    button_identities = [] 
     def __init__(self, dataFrame, ran_list, master=None):
         super().__init__(master)
         self.master = master
@@ -12,10 +13,23 @@ class Application(tk.Frame):
         for x in ran_list:
             self.create_genre_widgets(str(x), counter)
             counter = counter+1
+            
+    def genre_clicked(self, m_title, num, button_identities):
+        user_input = str(m_title)
+        output_list = []
+        for x in range(0,7787):
+            text = df.iat[x,genres_col]
+            if user_input in text:
+                output_list.append(df.iat[x,2])
+        print(output_list)
+        #self.button.configure(bg="red")
+        button_name = (button_identities[num])
+        self.button_name.configure(bg="red")
 
-    def create_genre_widgets(self, m_title, counter):
+    def create_genre_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title))
         #self.button["text"] = str(m_title)
+        
       
         if (counter%3==0):
             self.button.pack(side=tk.TOP,expand=True)
@@ -24,6 +38,7 @@ class Application(tk.Frame):
         else:
             self.button.pack(side=tk.BOTTOM,expand=True)
             
+        button_identities.append(self.button)
         
         #self.button = tk.set_location(counter)
         #real_row = counter/5 - 1
@@ -44,15 +59,6 @@ class Application(tk.Frame):
     #to a different page where all the Netflix titles of those options will appear
     #def create_OK(self):
     
-    def genre_clicked(self, m_title):
-        self.button.configure(bg="red")
-        user_input = str(m_title)
-        output_list = []
-        for x in range(0,7787):
-            text = df.iat[x,genres_col]
-            if user_input in text:
-                output_list.append(df.iat[x,2])
-        print(output_list)
             
     def create_quit(self):
      
