@@ -14,6 +14,7 @@ class Application(tk.Frame):
         for x in ran_list:
             self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
+        self.create_ok_button(button_identities)
             
     def genre_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
@@ -37,10 +38,27 @@ class Application(tk.Frame):
         
         #return current_list
         
-    #def create_ok_button(self, ):
-        #self.button = tk.Button(self,text=str(OK),command =lambda: self.ok_clicked())
+    def create_ok_button(self, button_identity):
+        self.button = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
         
-    #def ok_clicked(self):
+        self.button.grid(row = 8, column=2, pady=100)
+        
+        
+    def ok_clicked(self, but_id):
+        new_list = []
+        
+        for x in but_id:
+            if x.cget("bg") == 'red':
+                new_list.append(x.cget("text"))
+        print(new_list)
+                
+        
+                
+            
+        #find the red buttons
+        #compile respective lists to form new list with the common elements
+        #return the new list
+        
     
 
     def create_genre_widgets(self, m_title, counter, button_identities):
@@ -77,7 +95,7 @@ class Application(tk.Frame):
      
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 8, column = 3)
+        self.quit.grid(row = 8, column = 4, pady=100)
 
    
         
