@@ -1,5 +1,6 @@
 import tkinter as tk
 import pandas as pd
+import math
 
 class Application(tk.Frame):
     
@@ -14,7 +15,7 @@ class Application(tk.Frame):
             self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
             
-    def genre_clicked(self, m_title, button_identities,counter):
+    def genre_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
         output_list = []
         for x in range(0,7787):
@@ -23,20 +24,32 @@ class Application(tk.Frame):
                 output_list.append(df.iat[x,2])
         print(output_list)
         #self.button.configure(bg="red")
+        
+        
+            
+        
         button_name = (button_identities[counter])
         button_name.configure(bg="red")
+        
+    #def update_list(self, output_list, current_list):
+        #if current list is empty then equal to output list
+        #else only keep same elements between lists
+        
+        #return current_list
+        
+    #def create_ok_button(self, ):
+        #self.button = tk.Button(self,text=str(OK),command =lambda: self.ok_clicked())
+        
+    #def ok_clicked(self):
+    
 
     def create_genre_widgets(self, m_title, counter, button_identities):
         
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
         #self.button["text"] = str(m_title)
       
-        if (counter%3==0):
-            self.button.pack(side=tk.TOP,expand=True)
-        elif (counter%3==1):
-            self.button.pack(side=tk.LEFT,expand=True)
-        else:
-            self.button.pack(side=tk.BOTTOM,expand=True)
+            
+        self.button.grid(row= counter%6, column=counter%7)
             
         button_identities.append(self.button)
         
@@ -64,7 +77,7 @@ class Application(tk.Frame):
      
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.pack(side="top")
+        self.quit.grid(row = 8, column = 3)
 
    
         
@@ -96,8 +109,10 @@ df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950Final
 genres_col = 10
         
 genre_list = category_extraction(df,genres_col)
+current_list = []
 button_identities = [] 
 
 root = tk.Tk()
 app = Application(df, genre_list, button_identities, master=root)
 app.mainloop()
+
