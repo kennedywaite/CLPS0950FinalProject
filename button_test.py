@@ -14,7 +14,8 @@ class Application(tk.Frame):
         for x in ran_list:
             self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
-        self.create_ok_button(button_identities)
+        self.create_inc(button_identities)
+        self.create_exc(button_identities)
             
     def genre_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
@@ -28,7 +29,6 @@ class Application(tk.Frame):
         
         
             
-        
         button_name = (button_identities[counter])
         button_name.configure(bg="red")
         
@@ -38,26 +38,63 @@ class Application(tk.Frame):
         
         #return current_list
         
-    def create_ok_button(self, button_identity):
-        self.button = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
+    def create_inc(self, button_identity):
+        self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
         self.button.grid(row = 8, column=2, pady=100)
         
         
-    def ok_clicked(self, but_id):
+    def inc_clicked(self, but_id):
         new_list = []
         
         for x in but_id:
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
-        print(new_list)
                 
+        output_list = [] 
+        
+        for x in new_list:
+            for y in range(0,7787):
+                
+                text = df.iat[y,genres_col]
+                if (x in text) and (df.iat[y,2] not in output_list):
+                    output_list.append(df.iat[y,2])
+                    
+        print(output_list)
+        
+    def create_exc(self, button_identity):
+        self.button = tk.Button(self,text="Exclusive",fg="pink",command =lambda: self.exc_clicked(button_identity))
+        
+        self.button.grid(row = 8, column=3, pady=100)     
+        
+    def exc_clicked(self, but_id):
+        new_list = []
+        
+        for x in but_id:
+            if x.cget("bg") == 'red':
+                new_list.append(x.cget("text"))
+                
+        output_list = [] 
+        trash_list = []
+        
+      
+        for y in range(0,7787):
+            
+            text = df.iat[y,genres_col]
+            if all(x in text for x in new_list):
+                output_list.append(df.iat[y,2])
+                    
+        print(output_list)
+        
+        
         
                 
             
         #find the red buttons
         #compile respective lists to form new list with the common elements
         #return the new list
+        
+    
         
     
 
