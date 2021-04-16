@@ -1,6 +1,5 @@
 import tkinter as tk
 import pandas as pd
-import math
 
 class Application(tk.Frame):
     
@@ -24,7 +23,7 @@ class Application(tk.Frame):
             text = df.iat[x,genres_col]
             if user_input in text:
                 output_list.append(df.iat[x,2])
-        print(output_list)
+        #print(output_list)
         #self.button.configure(bg="red")
         
         
@@ -63,7 +62,7 @@ class Application(tk.Frame):
         print(output_list)
         
     def create_exc(self, button_identity):
-        self.button = tk.Button(self,text="Exclusive",fg="pink",command =lambda: self.exc_clicked(button_identity))
+        self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
         self.button.grid(row = 8, column=3, pady=100)     
         
