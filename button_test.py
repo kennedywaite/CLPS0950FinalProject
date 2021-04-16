@@ -105,20 +105,40 @@ class Application(tk.Frame):
                 
     def show_titles(self,shows_list):
         newWindow = tk.Toplevel(self.master)
-        newWindow.title("New Window")
+        newWindow.title("10 Random Movies/TV Shows of Selected Items")
         new_counter = 0
+        id_counter = 0
+        new_button_identities = []
         
         tk.Label(newWindow,text="Here are your shows").grid(row=0,column=0,pady=10)
         
         rand_list = random.sample(shows_list,10)
-        print(rand_list)
+        #print(rand_list)
         
         for x in rand_list:
-            newWindow.button = tk.Button(newWindow,text=str(x))          
-            newWindow.button.grid(row=(new_counter%2+1), column=new_counter%5)
-
+            self.create_show_titles(newWindow,x,new_counter,new_button_identities)
             new_counter +=1
             
+    def create_show_titles(self,newWindow,show_title,counter,button_identity):
+            newWindow.button = tk.Button(newWindow,text=str(show_title), command=lambda: self.show_title_info(newWindow,counter,button_identity))         
+            newWindow.button.grid(row=(counter%2+1), column=counter%5)
+            button_identity.append(newWindow.button)
+    
+    def show_title_info(self,newWindow,counter,button_identity):
+        #infoWindow = tk.Toplevel(self.master)
+        #infoWindow.title("Information on Selected Show")
+        #tk.Label(infoWindow,text="Here is your information").pack()
+        
+        button_name = (button_identity[counter])
+        button_name.configure(bg="red")
+        
+        #for i in range(0,7787):
+        #    title = df.iat[i,2]
+        #    if (button_identity[counter] == title):
+        #        row = df.loc[i,:]
+        #        print(row)
+                #for index, col in row.iteritems():
+                #    print(col)
 
 def category_extraction(dataF, col_num):
 #loop through pandas DataFrame column "col_num" and make a list of all entries
