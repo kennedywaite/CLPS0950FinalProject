@@ -60,7 +60,7 @@ class Application(tk.Frame):
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
                     
-        print(output_list)
+        #print(output_list)
         self.show_titles(output_list)
         
     def create_exc(self, button_identity):
@@ -83,7 +83,7 @@ class Application(tk.Frame):
             if all(x in text for x in new_list):
                 output_list.append(df.iat[y,2])
                     
-        print(output_list)
+        #print(output_list)
         self.show_titles(output_list)
     
 
@@ -107,7 +107,6 @@ class Application(tk.Frame):
         newWindow = tk.Toplevel(self.master)
         newWindow.title("10 Random Movies/TV Shows of Selected Items")
         new_counter = 0
-        id_counter = 0
         new_button_identities = []
         
         tk.Label(newWindow,text="Here are your shows").grid(row=0,column=0,pady=10)
@@ -125,21 +124,22 @@ class Application(tk.Frame):
             button_identity.append(newWindow.button)
     
     def show_title_info(self,newWindow,counter,button_identity):
-        #infoWindow = tk.Toplevel(self.master)
-        #infoWindow.title("Information on Selected Show")
-        #tk.Label(infoWindow,text="Here is your information").pack()
-        
         button_name = (button_identity[counter])
         button_name.configure(bg="red")
         
-        #for i in range(0,7787):
-        #    title = df.iat[i,2]
-        #    if (button_identity[counter] == title):
-        #        row = df.loc[i,:]
-        #        print(row)
-                #for index, col in row.iteritems():
-                #    print(col)
-
+        info_text = ""
+        
+        for i in range(0,7787):
+            title = df.iat[i,2]
+            if (button_identity[counter].cget('text') == title):
+                row = df.loc[i,:]
+                for index, col in row.iteritems():
+                    info_text = info_text + (str(index) + ': ' + str(col) + '\n')
+                    
+        infoWindow = tk.Toplevel(self.master)
+        infoWindow.title("Information on Selected Show")
+        tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
+        
 def category_extraction(dataF, col_num):
 #loop through pandas DataFrame column "col_num" and make a list of all entries
     list_items = []
