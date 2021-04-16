@@ -1,5 +1,6 @@
 import tkinter as tk
 import pandas as pd
+import random
 
 class Application(tk.Frame):
     
@@ -60,6 +61,7 @@ class Application(tk.Frame):
                     output_list.append(df.iat[y,2])
                     
         print(output_list)
+        self.show_titles(output_list)
         
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
@@ -73,9 +75,7 @@ class Application(tk.Frame):
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
                 
-        output_list = [] 
-        trash_list = []
-        
+        output_list = []         
       
         for y in range(0,7787):
             
@@ -84,17 +84,7 @@ class Application(tk.Frame):
                 output_list.append(df.iat[y,2])
                     
         print(output_list)
-        
-        
-        
-                
-            
-        #find the red buttons
-        #compile respective lists to form new list with the common elements
-        #return the new list
-        
-    
-        
+        self.show_titles(output_list)
     
 
     def create_genre_widgets(self, m_title, counter, button_identities):
@@ -106,36 +96,29 @@ class Application(tk.Frame):
         self.button.grid(row= counter%6, column=counter%7)
             
         button_identities.append(self.button)
-        
-        #self.button = tk.set_location(counter)
-        #real_row = counter/5 - 1
-        #real_col = counter%5 - 1
-        #real_row, real_col = self.set_location(self, counter)
-        #self.button.grid(real_row,real_col)
-        #Instead create a variable that takes the output from the button click 
-        #and sets that variable as the input for the 'tag' corresponding with
-        #each show's title
-        #Do this without breaking this code though, read up on TKinter's documentation
-
-    #def set_location(self, counter):
-    #    row = counter/5 - 1
-    #    col = counter%5 - 1
-    #    return row, col
-        
-    #create an ok button that when clicked, it will take all the options and move
-    #to a different page where all the Netflix titles of those options will appear
-    #def create_OK(self):
-    
-            
+                    
     def create_quit(self):
      
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.grid(row = 8, column = 4, pady=100)
+                
+    def show_titles(self,shows_list):
+        newWindow = tk.Toplevel(self.master)
+        newWindow.title("New Window")
+        new_counter = 0
+        
+        tk.Label(newWindow,text="Here are your shows").grid(row=0,column=0,pady=10)
+        
+        rand_list = random.sample(shows_list,10)
+        print(rand_list)
+        
+        for x in rand_list:
+            newWindow.button = tk.Button(newWindow,text=str(x))          
+            newWindow.button.grid(row=(new_counter%2+1), column=new_counter%5)
 
-   
-        
-        
+            new_counter +=1
+            
 
 def category_extraction(dataF, col_num):
 #loop through pandas DataFrame column "col_num" and make a list of all entries
