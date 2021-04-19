@@ -2,6 +2,9 @@ import tkinter as tk
 import pandas as pd
 import random
 
+#creating the application for the user interface where users will be able to 
+#find movies and TV shows (titles) on Netflix based on their selections, along with
+#information about those Netflix titles based on the Kaggle dataset
 class Application(tk.Frame):
     
     def __init__(self, dataFrame, ran_list, button_identities, master=None):
@@ -16,6 +19,8 @@ class Application(tk.Frame):
         self.create_inc(button_identities)
         self.create_exc(button_identities)
             
+    #this function creates an output list of Netflix titles that fit the
+    #selection made and then turns the button that was clicked red
     def genre_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
         output_list = []
@@ -26,12 +31,17 @@ class Application(tk.Frame):
             
         button_name = (button_identities[counter])
         button_name.configure(bg="red")
-                
+    
+    #creates the "Inclusive" button which is clicked when the user wants to 
+    #find titles that include either of the buttons clicked            
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
         self.button.grid(row = 8, column=2, pady=100)
-        
+    
+    #this function is called when the "Inclusive" button is clicked, then the 
+    #function will create a new window that shows all of the Netflix titles
+    #that contain ANY of the items that were selected by the user
     def inc_clicked(self, but_id):
         new_list = []
         
@@ -48,12 +58,17 @@ class Application(tk.Frame):
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
-        
+    
+    #this function creates the "Exclusive" button which is clicked when the 
+    #user wants to find titles that include every button that was clicked
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
         self.button.grid(row = 8, column=3, pady=100)     
-        
+    
+    #this function is called when the "Exclusive" button is clicked, then the
+    #function will create a new window that shows all of the Netflix titles 
+    #that contain ALL of the items that were selected by the user
     def exc_clicked(self, but_id):
         new_list = []
         
