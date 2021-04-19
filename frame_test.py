@@ -1,22 +1,55 @@
 import tkinter as tk
 import pandas as pd
 import random
-import math
 
 #creating the application for the user interface where users will be able to 
 #find movies and TV shows (titles) on Netflix based on their selections, along with
 #information about those Netflix titles based on the Kaggle dataset
-class Application(tk.Frame):
+
+class Application(tk.Tk):
     
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self._frame = None
+        self.switch_frame(WelcomePage)
+    
+    def switch_frame(self, frame_class):
+        new_frame = frame_class(self)
+        if self._frame is not None:
+            self._frame.destroy()
+        self._frame = new_frame
+        self._frame.pack()
+        
+class WelcomePage(tk.Frame):
+    def __init__(self,master):
+        tk.Frame.__init__(self, master)
+        tk.Label(self, text="Welcome to Netflix Recommendations!", font=('Helvetica', 14, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Start",font=('Comic Sans MS',12),command=lambda: master.switch_frame(PageOne)).pack()
+
+#buttons for user to search by category
+class PageOne(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        tk.Frame.configure(self,bg='blue')
+        tk.Label(self, text="Page one", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Go back to start page",command=lambda: master.switch_frame(WelcomePage)).pack()
+
+#buttons for user to search for items in category selected
+class PageTwo(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        tk.Frame.configure(self,bg='red')
+        tk.Label(self, text="Page two", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Go back to start page",command=lambda: master.switch_frame(WelcomePage)).pack()
+
     def __init__(self, dataFrame, ran_list, button_identities, master=None):
         super().__init__(master)
         self.master = master
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         self.create_quit()
-        total_values = len(ran_list)
         for x in ran_list:
-            self.create_genre_widgets(str(x), counter, button_identities, total_values)
+            self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
@@ -88,25 +121,15 @@ class Application(tk.Frame):
         self.show_titles(output_list)
     
 
-    def create_genre_widgets(self, m_title, counter, button_identities, total_values):
+    def create_genre_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
-        row_divider = 2
-        print(total_values)
-        for x in range(5,50):
-            if total_values%x == 0:
-                row_divider = x
-                print(x)
-                break
-            else:
-                print("none in range")
-                
-        self.button.grid(row=int(counter%row_divider), column=int(counter%(total_values/row_divider)))
+        self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 100, column = 4, pady=100)
+        self.quit.grid(row = 8, column = 4, pady=100)
                 
     def show_titles(self,shows_list):
         newWindow = tk.Toplevel(self.master)
@@ -142,7 +165,7 @@ class Application(tk.Frame):
         infoWindow = tk.Toplevel(self.master)
         infoWindow.title("Information on Selected Show")
         tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
-        
+
 def category_extraction(dataF, col_num):
 #loop through pandas DataFrame column "col_num" and make a list of all entries
     list_items = []
@@ -163,17 +186,18 @@ def category_extraction(dataF, col_num):
     return(category_list)
 
 
-
 df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
         
 genres_col = 10
-country_col = 5
         
 genre_list = category_extraction(df,genres_col)
-country_list = category_extraction(df, country_col)
 current_list = []
 button_identities = [] 
 
-root = tk.Tk()
-app = Application(df, country_list, button_identities, master=root)
-app.mainloop()
+#root = tk.Tk()
+#app = Application()
+#app = Application(df, genre_list, button_identities, master=root)
+
+if __name__ == "__main__":
+    app = Application()
+    app.mainloop()
