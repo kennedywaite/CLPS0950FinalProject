@@ -101,7 +101,10 @@ class Application(tk.Frame):
         newWindow.title("10 Random Movies/TV Shows of Selected Items")
         new_counter = 0
         new_button_identities = []
-        tk.Label(newWindow,text="Here are your shows").grid(row=0,column=0,pady=10)
+        if (len(shows_list) == 0):
+            tk.Label(newWindow,text="There are no Netflix titles that match your selections. Please try a different combination. ").grid(row=0,column=0,pady=10)
+        else:
+            tk.Label(newWindow,text="Here are your shows").grid(row=0,column=0,pady=10)
         rand_list = random.sample(shows_list,10)
         for x in rand_list:
             self.create_show_titles(newWindow,x,new_counter,new_button_identities)
