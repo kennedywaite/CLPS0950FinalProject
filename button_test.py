@@ -89,18 +89,9 @@ class Application(tk.Frame):
     
 
     def create_genre_widgets(self, m_title, counter, button_identities, total_values):
-        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
-        row_divider = 2
-        print(total_values)
-        for x in range(5,50):
-            if total_values%x == 0:
-                row_divider = x
-                print(x)
-                break
-            else:
-                print("none in range")
-                
-        self.button.grid(row=int(counter%row_divider), column=int(counter%(total_values/row_divider)))
+        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))        
+        
+        self.button.grid(row=counter%6, column=counter%7)
         button_identities.append(self.button)
                     
     def create_quit(self):

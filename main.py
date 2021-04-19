@@ -3,7 +3,7 @@
 import pandas as pd
 
 df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
-
+df.dropna()
 #this function makes a list of all the different unique types of a category
 #listed in
 def category_extraction(dataF, col_num):
@@ -15,14 +15,19 @@ def category_extraction(dataF, col_num):
 #creates a list of all the unique items from list of entries in col_num column
     category_list = []
     for x in range(0,len(list_items)):
-        if (type(list_items[x]) != float):
+        if (type(list_items[x]) == str):
             text = list_items[x]
             phrases = text.split(",")
             for y in range(0,len(phrases)):
                 phrases[y] = phrases[y].lstrip()
                 if phrases[y] not in category_list:
                     category_list.append(phrases[y])
-
+        else:
+            if list_items[x] not in category_list:
+                category_list.append(list_items[x])
+    
+    category_list = [x for x in category_list if x == x]
+    
     return(category_list)
 
 genres_col = 10
@@ -35,8 +40,13 @@ duration_col = 9
 genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)
 actor_list = category_extraction(df,actor_col)
-length = category_extraction(df,duration_col)
-print(genre_list)
+country_list = category_extraction(df,country_col)
+release_list = category_extraction(df,release_col)
+len_genre = len(genre_list)
+len_director = len(director_list)
+len_actor = len(actor_list)
+len_country = len(country_list)
+len_release = len(release_list)
 
 #for x in range(0,7787):
    # text = df.iat[x,genres_col]
