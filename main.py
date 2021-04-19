@@ -30,12 +30,14 @@ def category_extraction(dataF, col_num):
     
     return(category_list)
 
+#these variables represent the length of ... why am i forgettin !?!?1 lol
 genres_col = 10
 director_col = 3
 actor_col = 4
 country_col = 5
 release_col = 7
 duration_col = 9
+
 
 genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)

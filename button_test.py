@@ -87,18 +87,26 @@ class Application(tk.Frame):
                 output_list.append(df.iat[y,2])
         self.show_titles(output_list)
     
-
+    #this function creates the buttons/widgets for the category the user is 
+    #searching by (genre, year released, etc.). It also places the location of
+    #each button on the grid so they look pretty.
     def create_genre_widgets(self, m_title, counter, button_identities, total_values):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))        
-        
         self.button.grid(row=counter%6, column=counter%7)
         button_identities.append(self.button)
                     
+    #the creation of the quit button is in this function. the quit button just
+    #allows the user to exit from the recommendation system. we may need to 
+    #create a new quit button for each frame once we put them in frames
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.grid(row = 100, column = 4, pady=100)
-                
+    
+    #this function displays 10 random movie and tv show titles from the 
+    #shows_list based on the categories selected and whether it was inclusive
+    #or exclusive. we use a counter because if there are 0 movies that match
+    #the user's selection, we need to tell them to make a new selection. 
     def show_titles(self,shows_list):
         newWindow = tk.Toplevel(self.master)
         newWindow.title("10 Random Movies/TV Shows of Selected Items")
@@ -112,12 +120,19 @@ class Application(tk.Frame):
         for x in rand_list:
             self.create_show_titles(newWindow,x,new_counter,new_button_identities)
             new_counter +=1
-            
+    
+    #this function creates a new window to display the movie/tv info. we do
+    #this by calling the show_title_info function and passing in the newWindow,
+    #counter, and button_identity
     def create_show_titles(self,newWindow,show_title,counter,button_identity):
             newWindow.button = tk.Button(newWindow,text=str(show_title), command=lambda: self.show_title_info(newWindow,counter,button_identity))         
             newWindow.button.grid(row=(counter%2+1), column=counter%5)
             button_identity.append(newWindow.button)
     
+    #this is to display the information of the title selected (all categories
+    #are shown including actors, genres, year released, director, description,
+    #and more). we used a for loop to search the entire list of titles and 
+    #compare each to the button_identity to find the correct title to display.
     def show_title_info(self,newWindow,counter,button_identity):
         button_name = (button_identity[counter])
         button_name.configure(bg="red")
@@ -152,7 +167,6 @@ def category_extraction(dataF, col_num):
                     category_list.append(phrases[y])
 
     return(category_list)
-
 
 
 df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
