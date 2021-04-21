@@ -49,13 +49,12 @@ class PageTwo(tk.Frame):
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Genre", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Go back to Search by Categories",command=lambda: master.switch_frame(PageOne)).pack()
         
         super().__init__(master)
         self.master = master
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
-        self.create_quit()
+        self.create_quit(master)
         button_identities = []
         for x in genre_list:
             self.create_genre_widgets(str(x), counter, button_identities)
@@ -141,9 +140,11 @@ class PageTwo(tk.Frame):
     #the creation of the quit button is in this function. the quit button just
     #allows the user to exit from the recommendation system. we may need to 
     #create a new quit button for each frame once we put them in frames
-    def create_quit(self):
-        self.quit = tk.Button(self, text="QUIT", fg="red",
-                              command=self.master.destroy)
+    def create_quit(self, master):
+        self.quit = tk.Button(self, text="Go back to Search by Categories",command=lambda: master.switch_frame(PageOne)).pack()
+
+        #self.quit = tk.Button(self, text="QUIT", fg="red",
+        #                      command=self.master.destroy)
         self.quit.grid(row = 8, column = 4, pady=100)
              
     #this function displays 10 random movie and tv show titles from the 
