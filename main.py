@@ -26,7 +26,6 @@ def category_extraction(dataF, col_num):
         else:
             if (list_items[x] not in category_list):
                 category_list.append(list_items[x])
-                print(list_items[x])
     
     category_list = [x for x in category_list if x == x]
     for x in category_list:
@@ -44,21 +43,18 @@ release_col = 7
 duration_col = 9
 
 
-#genre_list = category_extraction(df,genres_col)
-#director_list = category_extraction(df,director_col)
-#actor_list = category_extraction(df,actor_col)
+genre_list = category_extraction(df,genres_col)
+director_list = category_extraction(df,director_col)
+actor_list = category_extraction(df,actor_col)
 country_list = category_extraction(df,country_col)
-print(country_list)
 empty_entry = country_list[74]
-print(empty_entry)
-print(type(empty_entry))
-print(empty_entry == '')
-#release_list = category_extraction(df,release_col)
-#len_genre = len(genre_list)
-#len_director = len(director_list)
-#len_actor = len(actor_list)
+release_list = category_extraction(df,release_col)
+len_genre = len(genre_list)
+len_director = len(director_list)
+len_actor = len(actor_list)
 len_country = len(country_list)
-print(len_country)
+len_year = len(release_list)
+print(len_year)
 #len_release = len(release_list)
 
 #for x in range(0,7787):

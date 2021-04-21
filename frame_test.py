@@ -61,7 +61,7 @@ class PageTwo(tk.Frame):
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
-        
+        self.create_refresh(genre_list,button_identities)
         
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
@@ -81,7 +81,7 @@ class PageTwo(tk.Frame):
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=2, pady=100)
+        self.button.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -108,7 +108,7 @@ class PageTwo(tk.Frame):
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=3, pady=100)     
+        self.button.grid(row = 9, column=3, pady=100)     
     
     #this function is called when the "Exclusive" button is clicked, then the
     #function will create a new window that shows all of the Netflix titles 
@@ -145,8 +145,42 @@ class PageTwo(tk.Frame):
 
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 8, column = 4, pady=100)
-             
+        self.quit.grid(row = 9, column = 4, pady=100)
+        
+    def create_refresh(self,ran_list,button_identities):
+        self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+        self.refresh.grid(row = 8, column = 3, pady=20)
+
+    def refresh_list(self,ran_list,button_identities):
+        remaining_list = ran_list
+        for x in button_identities:
+           existing_button = x.cget("text")
+           for y in remaining_list:
+               if (y == existing_button) and (isinstance(y,str) == True):
+                   remaining_list.remove(y)
+           x.destroy()
+        
+        if (len(remaining_list) != 0):
+            button_identities = []
+            new_counter = 0
+            if (len(remaining_list) >= 42):
+                needed_range = 42
+            else:
+                needed_range = len(remaining_list)
+            #print(needed_range)
+            for i in range(0,needed_range):
+                x = remaining_list[i]
+                if (isinstance(x,str) == True) or (isinstance(x,int) == True):
+                    self.create_genre_widgets(str(x), new_counter, button_identities)
+                    new_counter += 1
+               
+                self.refresh.destroy()
+                self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+                self.refresh.grid(row = 8, column = 3, pady=20)
+        else:
+            tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
+            print("seen all the options")
+
     #this function displays 10 random movie and tv show titles from the 
     #shows_list based on the categories selected and whether it was inclusive
     #or exclusive. we use a counter because if there are 0 movies that match
@@ -199,7 +233,6 @@ class PageThree(tk.Frame):
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Country", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Go back to Search by Categories",command=lambda: master.switch_frame(PageOne)).pack()
         
         super().__init__(master)
         self.master = master
@@ -207,11 +240,13 @@ class PageThree(tk.Frame):
         counter=0
         self.create_quit()
         button_identities = []
-        for x in country_list:
+        for i in range(0,42):
+            x = country_list[i]
             self.create_country_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
+        self.create_refresh(country_list, button_identities)
         
         
     #this function creates an output list of Netflix titles that fit the
@@ -232,7 +267,7 @@ class PageThree(tk.Frame):
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=2, pady=100)
+        self.button.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -259,7 +294,7 @@ class PageThree(tk.Frame):
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=3, pady=100)     
+        self.button.grid(row = 9, column=3, pady=100)     
     
     #this function is called when the "Exclusive" button is clicked, then the
     #function will create a new window that shows all of the Netflix titles 
@@ -294,7 +329,41 @@ class PageThree(tk.Frame):
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 8, column = 4, pady=100)
+        self.quit.grid(row = 9, column = 4, pady=100)
+        
+    def create_refresh(self,ran_list,button_identities):
+        self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+        self.refresh.grid(row = 8, column = 3, pady=20)
+
+    def refresh_list(self,ran_list,button_identities):
+        remaining_list = ran_list
+        for x in button_identities:
+           existing_button = x.cget("text")
+           for y in remaining_list:
+               if (y == existing_button) and (isinstance(y,str) == True):
+                   remaining_list.remove(y)
+           x.destroy()
+        
+        if (len(remaining_list) != 0):
+            button_identities = []
+            new_counter = 0
+            if (len(remaining_list) >= 42):
+                needed_range = 42
+            else:
+                needed_range = len(remaining_list)
+            #print(needed_range)
+            for i in range(0,needed_range):
+                x = remaining_list[i]
+                if (isinstance(x,str) == True) or (isinstance(x,int) == True):
+                    self.create_country_widgets(str(x), new_counter, button_identities)
+                    new_counter += 1
+               
+                self.refresh.destroy()
+                self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+                self.refresh.grid(row = 8, column = 3, pady=20)
+        else:
+            tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
+            print("seen all the options")
              
     #this function displays 10 random movie and tv show titles from the 
     #shows_list based on the categories selected and whether it was inclusive
@@ -361,6 +430,7 @@ class PageFour(tk.Frame):
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
+        self.create_refresh(year_list, button_identities)
         
         
     #this function creates an output list of Netflix titles that fit the
@@ -381,7 +451,7 @@ class PageFour(tk.Frame):
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=2, pady=100)
+        self.button.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -408,7 +478,7 @@ class PageFour(tk.Frame):
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=3, pady=100)     
+        self.button.grid(row = 9, column=3, pady=100)     
     
     #this function is called when the "Exclusive" button is clicked, then the
     #function will create a new window that shows all of the Netflix titles 
@@ -443,7 +513,42 @@ class PageFour(tk.Frame):
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 8, column = 4, pady=100)
+        self.quit.grid(row = 9, column = 4, pady=100)
+        
+    def create_refresh(self,ran_list,button_identities):
+        self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+        self.refresh.grid(row = 8, column = 3, pady=20)
+
+    def refresh_list(self,ran_list,button_identities):
+        remaining_list = ran_list
+        for x in button_identities:
+           existing_button = x.cget("text")
+           for y in remaining_list:
+               if (y == existing_button) and (isinstance(y,str) == True):
+                   remaining_list.remove(y)
+           x.destroy()
+        
+        if (len(remaining_list) != 0):
+            button_identities = []
+            new_counter = 0
+            if (len(remaining_list) >= 42):
+                needed_range = 42
+            else:
+                needed_range = len(remaining_list)
+            #print(needed_range)
+            for i in range(0,needed_range):
+                x = remaining_list[i]
+                if (isinstance(x,str) == True) or (isinstance(x,int) == True):
+                    self.create_year_widgets(str(x), new_counter, button_identities)
+                    new_counter += 1
+               
+                self.refresh.destroy()
+                self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+                self.refresh.grid(row = 8, column = 3, pady=20)
+        else:
+            tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
+            print("seen all the options")
+
              
     #this function displays 10 random movie and tv show titles from the 
     #shows_list based on the categories selected and whether it was inclusive
@@ -530,7 +635,7 @@ class PageFive(tk.Frame):
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=2, pady=100)
+        self.button.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -557,7 +662,7 @@ class PageFive(tk.Frame):
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=3, pady=100)     
+        self.button.grid(row = 9, column=3, pady=100)     
     
     #this function is called when the "Exclusive" button is clicked, then the
     #function will create a new window that shows all of the Netflix titles 
@@ -592,7 +697,7 @@ class PageFive(tk.Frame):
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 8, column = 4, pady=100)
+        self.quit.grid(row = 9, column = 4, pady=100)
              
     #this function displays 10 random movie and tv show titles from the 
     #shows_list based on the categories selected and whether it was inclusive
@@ -650,7 +755,7 @@ def category_extraction(dataF, col_num):
 #creates a list of all the unique items from list of entries in col_num column
     category_list = []
     for x in range(0,len(list_items)):
-        if (type(list_items[x]) == str):
+        if (type(list_items[x]) == str) and (list_items[x] != ''):
             text = list_items[x]
             phrases = text.split(",")
             for y in range(0,len(phrases)):
@@ -658,10 +763,13 @@ def category_extraction(dataF, col_num):
                 if phrases[y] not in category_list:
                     category_list.append(phrases[y])
         else:
-            if list_items[x] not in category_list:
+            if (list_items[x] not in category_list):
                 category_list.append(list_items[x])
     
     category_list = [x for x in category_list if x == x]
+    for x in category_list:
+        if (x == ''):
+            category_list.remove(x)
     
     return(category_list)
 
