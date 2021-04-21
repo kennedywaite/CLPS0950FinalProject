@@ -1,6 +1,8 @@
 import tkinter as tk
 import pandas as pd
 import random
+import math
+import numpy
 
 #creating the application for the user interface where users will be able to 
 #find movies and TV shows (titles) on Netflix based on their selections, along with
@@ -10,6 +12,7 @@ class Application(tk.Tk):
     
     def __init__(self):
         tk.Tk.__init__(self)
+        self.title("Netflix Recommendation Program")
         self._frame = None
         self.switch_frame(WelcomePage)
     
@@ -416,6 +419,8 @@ class PageFour(tk.Frame):
     def __init__(self, master): #master=None might just be master
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
+        master.rowconfigure(0,weight=1)
+        master.columnconfigure(0,weight=1)
         tk.Label(self, text="Search by Year Released", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
         tk.Button(self, text="Go back to Search by Categories",command=lambda: master.switch_frame(PageOne)).pack()
         
@@ -425,7 +430,8 @@ class PageFour(tk.Frame):
         counter=0
         self.create_quit()
         button_identities = []
-        for x in year_list:
+        for i in range(0,42):
+            x = year_list[i]
             self.create_year_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
@@ -504,7 +510,13 @@ class PageFour(tk.Frame):
     #each button on the grid so they look pretty.
     def create_year_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.year_clicked(m_title,button_identities,counter))
-        self.button.grid(row= counter%6, column=counter%7)
+        row_num = math.floor(counter/7)
+        col_num = counter%7
+        if col_num == 0:
+            self.button.grid(row=row_num,column=col_num,sticky=tk.SW)
+        else:
+            self.button.grid(row=row_num,column=col_num,sticky=tk.NE)
+        #self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
     #the creation of the quit button is in this function. the quit button just
@@ -524,10 +536,11 @@ class PageFour(tk.Frame):
         for x in button_identities:
            existing_button = x.cget("text")
            for y in remaining_list:
-               if (y == existing_button) and (isinstance(y,str) == True):
+               print(type(y))
+               if (str(y) == str(existing_button)) and ((isinstance(y,str) == True) or (isinstance(y,numpy.int64) == True)):
                    remaining_list.remove(y)
            x.destroy()
-        
+           print(remaining_list)
         if (len(remaining_list) != 0):
             button_identities = []
             new_counter = 0
@@ -538,7 +551,7 @@ class PageFour(tk.Frame):
             #print(needed_range)
             for i in range(0,needed_range):
                 x = remaining_list[i]
-                if (isinstance(x,str) == True) or (isinstance(x,int) == True):
+                if (isinstance(x,str) == True) or (isinstance(x,numpy.int64) == True):
                     self.create_year_widgets(str(x), new_counter, button_identities)
                     new_counter += 1
                
@@ -789,7 +802,7 @@ genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)
 actor_list = category_extraction(df,actor_col)
 country_list = category_extraction(df,country_col)
-year_list = category_extraction(df,release_col)
+year_list = sorted(category_extraction(df,release_col))
 
 current_list = []
 button_identities = [] 
