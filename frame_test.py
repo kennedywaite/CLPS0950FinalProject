@@ -34,8 +34,12 @@ class PageOne(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='blue')
-        tk.Label(self, text="Page one", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Go back to start page",command=lambda: master.switch_frame(WelcomePage)).pack()
+        tk.Label(self, text="Choose what category to search by.", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Genres",font=('Helvetica', 12),command=lambda: master.switch_frame(PageTwo)).pack()
+        tk.Button(self, text="Country",font=('Helvetica', 12),command=lambda: master.switch_frame(PageTwo)).pack()
+        tk.Button(self, text="Year Released",font=('Helvetica', 12),command=lambda: master.switch_frame(PageTwo)).pack()
+        tk.Button(self, text="Director",font=('Helvetica', 12),command=lambda: master.switch_frame(PageTwo)).pack()
+        tk.Button(self, text="Go Back ",font=('Helvetica', 14, 'bold'),command=lambda: master.switch_frame(WelcomePage)).pack()
 
 #the third frame and class is PageTwo. here there are buttons for user to 
 #search for items in category selected. tt is where bulk of the code is.
