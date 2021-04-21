@@ -45,7 +45,7 @@ class PageOne(tk.Frame):
 #search for items in category selected. tt is where bulk of the code is.
 class PageTwo(tk.Frame):
 
-    def __init__(self, dataFrame, ran_list, button_identities, master=None): #master=None might just be master
+    def __init__(self, master): #master=None might just be master
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Genre", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -56,7 +56,8 @@ class PageTwo(tk.Frame):
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         self.create_quit()
-        for x in ran_list:
+        button_identities = []
+        for x in genre_list:
             self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
@@ -193,7 +194,7 @@ class PageTwo(tk.Frame):
             
 class PageThree(tk.Frame):
     
-    def __init__(self, dataFrame, ran_list, button_identities, master=None): #master=None might just be master
+    def __init__(self, master): #master=None might just be master
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Country", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -204,8 +205,9 @@ class PageThree(tk.Frame):
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         self.create_quit()
-        for x in ran_list:
-            self.create_genre_widgets(str(x), counter, button_identities)
+        button_identities = []
+        for x in country_list:
+            self.create_country_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
@@ -213,11 +215,11 @@ class PageThree(tk.Frame):
         
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
-    def genre_clicked(self, m_title, button_identities, counter):
+    def country_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
         output_list = []
         for x in range(0,7787):
-            text = df.iat[x,genres_col]
+            text = df.iat[x,country_col]
             if user_input in text:
                 output_list.append(df.iat[x,2])
             
@@ -246,7 +248,7 @@ class PageThree(tk.Frame):
         for x in new_list:
             for y in range(0,7787):
                 
-                text = df.iat[y,genres_col]
+                text = df.iat[y,country_col]
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -272,7 +274,7 @@ class PageThree(tk.Frame):
       
         for y in range(0,7787):
             
-            text = df.iat[y,genres_col]
+            text = df.iat[y,country_col]
             if all(x in text for x in new_list):
                 output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -280,8 +282,8 @@ class PageThree(tk.Frame):
     #this function creates the buttons/widgets for the category the user is 
     #searching by (genre, year released, etc.). It also places the location of
     #each button on the grid so they look pretty.
-    def create_genre_widgets(self, m_title, counter, button_identities):
-        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
+    def create_country_widgets(self, m_title, counter, button_identities):
+        self.button = tk.Button(self,text=str(m_title),command =lambda: self.country_clicked(m_title,button_identities,counter))
         self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
@@ -341,7 +343,7 @@ class PageThree(tk.Frame):
     
 class PageFour(tk.Frame):
 
-    def __init__(self, dataFrame, ran_list, button_identities, master=None): #master=None might just be master
+    def __init__(self, master): #master=None might just be master
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Year Released", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -352,8 +354,9 @@ class PageFour(tk.Frame):
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         self.create_quit()
-        for x in ran_list:
-            self.create_genre_widgets(str(x), counter, button_identities)
+        button_identities = []
+        for x in year_list:
+            self.create_year_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
@@ -361,11 +364,11 @@ class PageFour(tk.Frame):
         
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
-    def genre_clicked(self, m_title, button_identities, counter):
+    def year_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
         output_list = []
         for x in range(0,7787):
-            text = df.iat[x,genres_col]
+            text = df.iat[x,release_col]
             if user_input in text:
                 output_list.append(df.iat[x,2])
             
@@ -394,7 +397,7 @@ class PageFour(tk.Frame):
         for x in new_list:
             for y in range(0,7787):
                 
-                text = df.iat[y,genres_col]
+                text = df.iat[y,release_col]
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -420,7 +423,7 @@ class PageFour(tk.Frame):
       
         for y in range(0,7787):
             
-            text = df.iat[y,genres_col]
+            text = df.iat[y,release_col]
             if all(x in text for x in new_list):
                 output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -428,8 +431,8 @@ class PageFour(tk.Frame):
     #this function creates the buttons/widgets for the category the user is 
     #searching by (genre, year released, etc.). It also places the location of
     #each button on the grid so they look pretty.
-    def create_genre_widgets(self, m_title, counter, button_identities):
-        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
+    def create_year_widgets(self, m_title, counter, button_identities):
+        self.button = tk.Button(self,text=str(m_title),command =lambda: self.year_clicked(m_title,button_identities,counter))
         self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
@@ -489,7 +492,7 @@ class PageFour(tk.Frame):
     
 class PageFive(tk.Frame):
 
-    def __init__(self, dataFrame, ran_list, button_identities, master=None): #master=None might just be master
+    def __init__(self, master): #master=None might just be master
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Director", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -500,8 +503,9 @@ class PageFive(tk.Frame):
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         self.create_quit()
-        for x in ran_list:
-            self.create_genre_widgets(str(x), counter, button_identities)
+        button_identities = []
+        for x in director_list:
+            self.create_director_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
@@ -509,11 +513,11 @@ class PageFive(tk.Frame):
         
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
-    def genre_clicked(self, m_title, button_identities, counter):
+    def director_clicked(self, m_title, button_identities, counter):
         user_input = str(m_title)
         output_list = []
         for x in range(0,7787):
-            text = df.iat[x,genres_col]
+            text = df.iat[x,director_col]
             if user_input in text:
                 output_list.append(df.iat[x,2])
             
@@ -542,7 +546,7 @@ class PageFive(tk.Frame):
         for x in new_list:
             for y in range(0,7787):
                 
-                text = df.iat[y,genres_col]
+                text = df.iat[y,director_col]
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -568,7 +572,7 @@ class PageFive(tk.Frame):
       
         for y in range(0,7787):
             
-            text = df.iat[y,genres_col]
+            text = df.iat[y,director_col]
             if all(x in text for x in new_list):
                 output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -576,8 +580,8 @@ class PageFive(tk.Frame):
     #this function creates the buttons/widgets for the category the user is 
     #searching by (genre, year released, etc.). It also places the location of
     #each button on the grid so they look pretty.
-    def create_genre_widgets(self, m_title, counter, button_identities):
-        self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))
+    def create_director_widgets(self, m_title, counter, button_identities):
+        self.button = tk.Button(self,text=str(m_title),command =lambda: self.director_clicked(m_title,button_identities,counter))
         self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
@@ -665,8 +669,19 @@ def category_extraction(dataF, col_num):
 df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
         
 genres_col = 10
-        
+director_col = 3
+actor_col = 4
+country_col = 5
+release_col = 7
+duration_col = 9
+
+
 genre_list = category_extraction(df,genres_col)
+director_list = category_extraction(df,director_col)
+actor_list = category_extraction(df,actor_col)
+country_list = category_extraction(df,country_col)
+year_list = category_extraction(df,release_col)
+
 current_list = []
 button_identities = [] 
 
