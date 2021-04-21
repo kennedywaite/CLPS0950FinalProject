@@ -141,7 +141,7 @@ class PageTwo(tk.Frame):
     #allows the user to exit from the recommendation system. we may need to 
     #create a new quit button for each frame once we put them in frames
     def create_quit(self, master):
-        self.quit = tk.Button(self, text="Go back to Search by Categories",command=lambda: master.switch_frame(PageOne)).pack()
+        self.quit = tk.Button(self, text="Go back to Search by Categories", fg="red", command=lambda: self.master.switch_frame(PageOne)).pack()
 
         #self.quit = tk.Button(self, text="QUIT", fg="red",
         #                      command=self.master.destroy)
