@@ -118,17 +118,27 @@ class Application(tk.Frame):
                    remaining_list.remove(y)
            x.destroy()
         
-        new_counter = 0
-        for i in range(0,42):
-            x = remaining_list[i]
-            if (isinstance(x,str) == True) or (isinstance(x,int) == True):
-                self.create_genre_widgets(str(x), new_counter, button_identities)
-                new_counter += 1
-           
-            self.refresh.destroy()
-            self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
-            self.refresh.grid(row = 8, column = 3, pady=20)
-        
+        if (len(remaining_list) != 0):
+            button_identities = []
+            new_counter = 0
+            if (len(remaining_list) >= 42):
+                needed_range = 42
+            else:
+                needed_range = len(remaining_list)
+            #print(needed_range)
+            for i in range(0,needed_range):
+                x = remaining_list[i]
+                if (isinstance(x,str) == True) or (isinstance(x,int) == True):
+                    self.create_genre_widgets(str(x), new_counter, button_identities)
+                    new_counter += 1
+               
+                self.refresh.destroy()
+                self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+                self.refresh.grid(row = 8, column = 3, pady=20)
+        else:
+            tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
+            print("seen all the options")
+
     #this function displays 10 random movie and tv show titles from the 
     #shows_list based on the categories selected and whether it was inclusive
     #or exclusive. we use a counter because if there are 0 movies that match
@@ -215,7 +225,6 @@ def category_extraction(dataF, col_num):
         else:
             if (list_items[x] not in category_list):
                 category_list.append(list_items[x])
-                print(list_items[x])
     
     category_list = [x for x in category_list if x == x]
     for x in category_list:
