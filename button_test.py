@@ -14,12 +14,14 @@ class Application(tk.Frame):
         self.pack(fill=tk.BOTH,expand=True)
         counter=0
         self.create_quit()
-        total_values = len(ran_list)
-        for x in ran_list:
-            self.create_genre_widgets(str(x), counter, button_identities, total_values)
+        #total_values = len(ran_list)
+        for i in range(0,42):
+            x = ran_list[i]
+            self.create_genre_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_inc(button_identities)
         self.create_exc(button_identities)
+        self.create_refresh(ran_list,button_identities)
             
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
@@ -27,7 +29,7 @@ class Application(tk.Frame):
         user_input = str(m_title)
         output_list = []
         for x in range(0,7787):
-            text = df.iat[x,genres_col]
+            text = df.iat[x,country_col]
             if user_input in text:
                 output_list.append(df.iat[x,2])
             
@@ -39,7 +41,7 @@ class Application(tk.Frame):
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=2, pady=100)
+        self.button.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -56,7 +58,7 @@ class Application(tk.Frame):
         for x in new_list:
             for y in range(0,7787):
                 
-                text = df.iat[y,genres_col]
+                text = df.iat[y,country_col]
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -66,7 +68,7 @@ class Application(tk.Frame):
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
-        self.button.grid(row = 8, column=3, pady=100)     
+        self.button.grid(row = 9, column=3, pady=100)     
     
     #this function is called when the "Exclusive" button is clicked, then the
     #function will create a new window that shows all of the Netflix titles 
@@ -82,7 +84,7 @@ class Application(tk.Frame):
       
         for y in range(0,7787):
             
-            text = df.iat[y,genres_col]
+            text = df.iat[y,country_col]
             if all(x in text for x in new_list):
                 output_list.append(df.iat[y,2])
         self.show_titles(output_list)
@@ -90,7 +92,7 @@ class Application(tk.Frame):
     #this function creates the buttons/widgets for the category the user is 
     #searching by (genre, year released, etc.). It also places the location of
     #each button on the grid so they look pretty.
-    def create_genre_widgets(self, m_title, counter, button_identities, total_values):
+    def create_genre_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.genre_clicked(m_title,button_identities,counter))        
         self.button.grid(row=counter%6, column=counter%7)
         button_identities.append(self.button)
@@ -101,8 +103,32 @@ class Application(tk.Frame):
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
-        self.quit.grid(row = 100, column = 4, pady=100)
-    
+        self.quit.grid(row = 9, column = 4, pady=100)
+        
+    def create_refresh(self,ran_list,button_identities):
+        self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+        self.refresh.grid(row = 8, column = 3, pady=20)
+
+    def refresh_list(self,ran_list,button_identities):
+        remaining_list = ran_list
+        for x in button_identities:
+           existing_button = x.cget("text")
+           for y in remaining_list:
+               if (y == existing_button) and (isinstance(y,str) == True):
+                   remaining_list.remove(y)
+           x.destroy()
+        
+        new_counter = 0
+        for i in range(0,42):
+            x = remaining_list[i]
+            if (isinstance(x,str) == True) or (isinstance(x,int) == True):
+                self.create_genre_widgets(str(x), new_counter, button_identities)
+                new_counter += 1
+           
+            self.refresh.destroy()
+            self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+            self.refresh.grid(row = 8, column = 3, pady=20)
+        
     #this function displays 10 random movie and tv show titles from the 
     #shows_list based on the categories selected and whether it was inclusive
     #or exclusive. we use a counter because if there are 0 movies that match
@@ -173,12 +199,14 @@ df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950Final
         
 genres_col = 10
 country_col = 5
+director_col = 3
         
 genre_list = category_extraction(df,genres_col)
 country_list = category_extraction(df, country_col)
+director_list = category_extraction(df,director_col)
 current_list = []
 button_identities = [] 
 
 root = tk.Tk()
-app = Application(df, country_list, button_identities, master=root)
+app = Application(df, director_list, button_identities, master=root)
 app.mainloop()

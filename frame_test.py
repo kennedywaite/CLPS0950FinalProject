@@ -141,10 +141,10 @@ class PageTwo(tk.Frame):
     #allows the user to exit from the recommendation system. we may need to 
     #create a new quit button for each frame once we put them in frames
     def create_quit(self, master):
-        self.quit = tk.Button(self, text="Go back to Search by Categories", fg="red", command=lambda: self.master.switch_frame(PageOne)).pack()
+        #self.quit = tk.Button(self, text="Go back to Search by Categories", fg="red", command=lambda: self.master.switch_frame(PageOne)).pack()
 
-        #self.quit = tk.Button(self, text="QUIT", fg="red",
-        #                      command=self.master.destroy)
+        self.quit = tk.Button(self, text="QUIT", fg="red",
+                              command=self.master.destroy)
         self.quit.grid(row = 8, column = 4, pady=100)
              
     #this function displays 10 random movie and tv show titles from the 

@@ -43,11 +43,13 @@ genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)
 actor_list = category_extraction(df,actor_col)
 country_list = category_extraction(df,country_col)
+print(country_list)
 release_list = category_extraction(df,release_col)
 len_genre = len(genre_list)
 len_director = len(director_list)
 len_actor = len(actor_list)
 len_country = len(country_list)
+print(len_country)
 len_release = len(release_list)
 
 #for x in range(0,7787):
