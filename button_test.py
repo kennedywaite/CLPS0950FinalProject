@@ -175,6 +175,27 @@ class Application(tk.Frame):
         infoWindow.title("Information on Selected Show")
         tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
         
+# def category_extraction(dataF, col_num):
+# #loop through pandas DataFrame column "col_num" and make a list of all entries
+#     list_items = []
+#     for x in range(0,7787):
+#         list_items.append(dataF.iat[x,col_num])
+    
+# #creates a list of all the unique items from list of entries in col_num column
+#     category_list = []
+#     for x in range(0,len(list_items)):
+#         if (type(list_items[x]) != float):
+#             text = list_items[x]
+#             if (text == ''):
+#                 break
+#             phrases = text.split(",")
+#             for y in range(0,len(phrases)):
+#                 phrases[y] = phrases[y].lstrip()
+#                 if phrases[y] not in category_list:
+#                     category_list.append(phrases[y])
+
+#     return(category_list)
+
 def category_extraction(dataF, col_num):
 #loop through pandas DataFrame column "col_num" and make a list of all entries
     list_items = []
@@ -184,14 +205,23 @@ def category_extraction(dataF, col_num):
 #creates a list of all the unique items from list of entries in col_num column
     category_list = []
     for x in range(0,len(list_items)):
-        if (type(list_items[x]) != float):
+        if (type(list_items[x]) == str) and (list_items[x] != ''):
             text = list_items[x]
             phrases = text.split(",")
             for y in range(0,len(phrases)):
                 phrases[y] = phrases[y].lstrip()
                 if phrases[y] not in category_list:
                     category_list.append(phrases[y])
-
+        else:
+            if (list_items[x] not in category_list):
+                category_list.append(list_items[x])
+                print(list_items[x])
+    
+    category_list = [x for x in category_list if x == x]
+    for x in category_list:
+        if (x == ''):
+            category_list.remove(x)
+    
     return(category_list)
 
 
@@ -208,5 +238,5 @@ current_list = []
 button_identities = [] 
 
 root = tk.Tk()
-app = Application(df, director_list, button_identities, master=root)
+app = Application(df, country_list, button_identities, master=root)
 app.mainloop()

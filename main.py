@@ -1,6 +1,7 @@
 #main file to call table extraction functions
 
 import pandas as pd
+import math
 
 df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
 df.dropna()
@@ -15,7 +16,7 @@ def category_extraction(dataF, col_num):
 #creates a list of all the unique items from list of entries in col_num column
     category_list = []
     for x in range(0,len(list_items)):
-        if (type(list_items[x]) == str):
+        if (type(list_items[x]) == str) and (list_items[x] != ''):
             text = list_items[x]
             phrases = text.split(",")
             for y in range(0,len(phrases)):
@@ -23,10 +24,14 @@ def category_extraction(dataF, col_num):
                 if phrases[y] not in category_list:
                     category_list.append(phrases[y])
         else:
-            if list_items[x] not in category_list:
+            if (list_items[x] not in category_list):
                 category_list.append(list_items[x])
+                print(list_items[x])
     
     category_list = [x for x in category_list if x == x]
+    for x in category_list:
+        if (x == ''):
+            category_list.remove(x)
     
     return(category_list)
 
@@ -39,18 +44,22 @@ release_col = 7
 duration_col = 9
 
 
-genre_list = category_extraction(df,genres_col)
-director_list = category_extraction(df,director_col)
-actor_list = category_extraction(df,actor_col)
+#genre_list = category_extraction(df,genres_col)
+#director_list = category_extraction(df,director_col)
+#actor_list = category_extraction(df,actor_col)
 country_list = category_extraction(df,country_col)
 print(country_list)
-release_list = category_extraction(df,release_col)
-len_genre = len(genre_list)
-len_director = len(director_list)
-len_actor = len(actor_list)
+empty_entry = country_list[74]
+print(empty_entry)
+print(type(empty_entry))
+print(empty_entry == '')
+#release_list = category_extraction(df,release_col)
+#len_genre = len(genre_list)
+#len_director = len(director_list)
+#len_actor = len(actor_list)
 len_country = len(country_list)
 print(len_country)
-len_release = len(release_list)
+#len_release = len(release_list)
 
 #for x in range(0,7787):
    # text = df.iat[x,genres_col]
