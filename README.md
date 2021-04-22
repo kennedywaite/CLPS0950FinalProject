@@ -4,7 +4,7 @@ An exploratory project for Python’s TKinter graphical user interface package. 
 
 Title: The Netflix Organizer!
 
-Abstract: Our project aims to explore the Python GUI package TKinter and use it to create a series of windows and buttons which we can then use to organize Netflix shows into certain categories. We pulled Netflix shows from a large .csv file which compiled nearly 8,000 distinct Netflix titles across various regions and genres, showcasing a wide array of directors and actors. The link to that spreadsheet can be found in our Github repository and is also linked here for downloading.
+Abstract: Our project aims to explore the Python GUI package TKinter and use it to create a series of windows and buttons which we can then use to organize Netflix shows into certain categories. We pulled Netflix shows from a large .csv file which compiled nearly 8,000 distinct Netflix titles across various regions and genres, showcasing a wide array of directors and actors. The link to that spreadsheet can be found in our Github repository and is also [linked here for downloading](https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv).
 
 Instructions: From main.py, run the code. A small menu should appear with a start button to prompt the user to begin the program. From there, users can choose from Netflix shows sorted by ‘Genres’, ‘Country’, ‘Year Released’, and ‘Director’. If the user changes their mind and decides that they no longer want to procrastinate with Netflix, they can opt to go back to the start menu and quit.
 
