@@ -201,10 +201,10 @@ class PageTwo(tk.Frame):
             tk.Label(newWindow,text="There are no Netflix titles that match your selections. Please try a different combination. ").grid(row=0,column=0,pady=10)
         else:
             tk.Label(newWindow,text="Here are your shows").grid(row=0,column=0,pady=10)
-        rand_list = random.sample(shows_list,10)
-        for x in rand_list:
-            self.create_show_titles(newWindow,x,new_counter,new_button_identities)
-            new_counter +=1
+            rand_list = random.sample(shows_list,10)
+            for x in rand_list:
+                self.create_show_titles(newWindow,x,new_counter,new_button_identities)
+                new_counter +=1
             
     #this function creates a new window to display the movie/tv info. we do
     #this by calling the show_title_info function and passing in the newWindow,
@@ -292,7 +292,7 @@ class PageThree(tk.Frame):
             for y in range(0,7787):
                 
                 text = str(df.iat[y,country_col])
-                if (x in text) and (df.iat[y,2] not in output_list):
+                if (str(x) in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
     
@@ -359,7 +359,7 @@ class PageThree(tk.Frame):
            x.destroy()
         
         if (len(remaining_list) != 0):
-            button_identities = []
+            new_button_identities = []
             new_counter = 0
             if (len(remaining_list) >= 42):
                 needed_range = 42
@@ -369,7 +369,7 @@ class PageThree(tk.Frame):
             for i in range(0,needed_range):
                 x = remaining_list[i]
                 if (isinstance(x,str) == True) or (isinstance(x,int) == True):
-                    self.create_country_widgets(str(x), new_counter, button_identities)
+                    self.create_country_widgets(str(x), new_counter, new_button_identities)
                     new_counter += 1
                
                 self.refresh.destroy()
@@ -402,7 +402,7 @@ class PageThree(tk.Frame):
             rand_list = shows_list
             
         for x in rand_list:
-            self.create_show_titles(newWindow,x,new_counter,new_button_identities)
+            self.create_show_titles(newWindow,str(x),new_counter,new_button_identities)
             new_counter +=1
             
     #this function creates a new window to display the movie/tv info. we do
