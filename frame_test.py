@@ -28,8 +28,9 @@ class Application(tk.Tk):
 class WelcomePage(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="Welcome to Netflix Recommendations!", font=('Helvetica', 14, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Start",font=('Comic Sans MS',12),command=lambda: master.switch_frame(PageOne)).pack()
+        self.configure(bg = 'black')
+        tk.Label(self, text="Welcome to Netflix Recommendations!", bg = 'black', fg = 'red', font=('Helvetica', 14, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="Start",font=('Comic Sans MS',12), bg='white',fg = 'black' ,command=lambda: master.switch_frame(PageOne)).pack()
 
 #the second frame and class is PageOne. here there are buttons for user to 
 #search by category. user can choose to search by genre, release year, etc.
