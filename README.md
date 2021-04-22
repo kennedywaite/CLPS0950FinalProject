@@ -14,8 +14,13 @@ Once the user has selected a show that they are interested in, clicking on the t
 
 File Descriptions:
 Main.py -  the main program. Run this file to see how our program runs. It makes use of a number of defined functions which successively take genre inputs and creates buttons for the user to click through tkinter. There are multiple different page classes for each category (genre, country, year released, and director), and each page class has similar functions that create buttons and brings up the necessary information when buttons are pressed. Then, category_extraction is run at the bottom for all necessary categories, in order to use these variables throughout the Tkinter pages. 
+
 Genre_extraction.py - extracts the various categories out of the .csv file which contains the raw information.
+
 Keyword_extraction.py - test run using Python’s natural language toolkit which was ultimately scrapped in favor of using for/if loops to process the data set manually. 
+
 Button_test.py - Testing tkinter and button creation to allow for streamlined button implementation into the main project file, using genres as a base case and testing it for other categories.
+
 Textbox_test.py - Scrapped idea which took in user-inputted text. Opted for a button GUI instead.
+
 User_input.py - Another scrapped idea which prompted users to log in/register. The idea was to create a user matrix that could take in ratings of Netflix titles from the user and calculate a similarity score between users. But, we wanted to focus on the basic organization of the Netflix titles. 
