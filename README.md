@@ -24,3 +24,5 @@ Button_test.py - Testing tkinter and button creation to allow for streamlined bu
 Textbox_test.py - Scrapped idea which took in user-inputted text. Opted for a button GUI instead.
 
 User_input.py - Another scrapped idea which prompted users to log in/register. The idea was to create a user matrix that could take in ratings of Netflix titles from the user and calculate a similarity score between users. But, we wanted to focus on the basic organization of the Netflix titles. 
+
+As a note to the user: The files 'genre_extraction', 'keyword_extraction', 'button_test', 'textbox_test', and 'user_input' are all test cases which are meant to demonstrate the process our group used to create the main program coded in 'main.py'. They serve no purpose and shouldn't be run. 
