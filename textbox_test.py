@@ -1,3 +1,9 @@
+"""
+DO NOT RUN THIS FILE
+This file was used to test on labels. We eventually scrapped this idea for
+using buttons instead because buttons would be more user-friendly.
+"""
+
 import tkinter as tk
 from tkinter import simpledialog
 from tkinter import messagebox

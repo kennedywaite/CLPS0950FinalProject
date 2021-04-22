@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  6 20:01:46 2021
-
-@author: Ashley
+DO NOT RUN THIS FILE
+This file was used to test out the Natural Language Toolkit, which can be used
+for keyword detection. We ultimately did not use this and just manually 
+processed the dataset.
 """
 
 import pandas as pd

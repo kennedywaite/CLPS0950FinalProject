@@ -1,3 +1,16 @@
+"""
+RUN THIS FILE!!
+This is the main file for the Netflix organizer program. You can run this
+file and go through the program on the user interface. You will first be
+prompted to start the program on a Welcome Page, and then you can choose
+a category that you would like know more about. Then, you will be shown
+42 different items of this category. You can choose to refresh if you would
+like to see more options. If you select an option(s), it will show you a
+list of 10 random Netflix titles for the criteria you selected. Clicking on
+one of these shows will open up a window with the information of that Netflix
+title. 
+""" 
+
 import tkinter as tk
 import pandas as pd
 import random
@@ -6,7 +19,9 @@ import numpy
 
 #creating the application for the user interface where users will be able to 
 #find movies and TV shows (titles) on Netflix based on their selections, along with
-#information about those Netflix titles based on the Kaggle dataset
+#information about those Netflix titles based on the Kaggle dataset. This 
+#application is also called when switching pages between the Welcome Page
+#and this first page
 
 class Application(tk.Tk):
     
@@ -23,7 +38,7 @@ class Application(tk.Tk):
         self._frame = new_frame
         self._frame.pack()
         
-#first we want to have a welcomepage that displays "Welcome" along with a
+#first we want to have a welcome page that displays "Welcome" along with a
 #Start button. This is within a class because it is the first frame.
 class WelcomePage(tk.Frame):
     def __init__(self,master):
@@ -32,8 +47,10 @@ class WelcomePage(tk.Frame):
         tk.Label(self, text="Welcome to Netflix Recommendations!", bg = 'black', fg = 'red', font=('Helvetica', 14, "bold")).pack(side="top", fill="x", pady=5)
         tk.Button(self, text="Start",font=('Comic Sans MS',12), bg='white',fg = 'black' ,command=lambda: master.switch_frame(PageOne)).pack()
 
-#the second frame and class is PageOne. here there are buttons for user to 
-#search by category. user can choose to search by genre, release year, etc.
+#the second frame and class is PageOne. Here there are buttons for users to 
+#search by category. User can choose to search by genre, release year, etc.
+#Clicking on a button will direct the user to the appropriate page for that
+#category.
 class PageOne(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -45,11 +62,15 @@ class PageOne(tk.Frame):
         tk.Button(self, text="Director",font=('Helvetica', 12),command=lambda: master.switch_frame(PageFive)).pack()
         tk.Button(self, text="Go Back ",font=('Helvetica', 14, 'bold'),command=lambda: master.switch_frame(WelcomePage)).pack()
 
-#the third frame and class is PageTwo. here there are buttons for user to 
-#search for items in category selected. tt is where bulk of the code is.
+#the third frame and class is PageTwo. Here there are buttons for user to 
+#search for items in the Genre category. This is where buttons are added to
+#the window and where the functionality for each of the buttons is created
 class PageTwo(tk.Frame):
 
-    def __init__(self, master): #master=None might just be master
+    #this function is called when the PageTwo function is called to display
+    #show titles by genre. It calls all the functions that are defined in
+    #this class to make buttons for the genre portion of the program
+    def __init__(self, master): 
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Genre", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -84,7 +105,6 @@ class PageTwo(tk.Frame):
     #find titles that include either of the buttons clicked            
     def create_inc(self, button_identity):
         self.button = tk.Button(self,text="Inclusive",fg="blue",command =lambda: self.inc_clicked(button_identity))
-        
         self.button.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
@@ -92,16 +112,13 @@ class PageTwo(tk.Frame):
     #that contain ANY of the items that were selected by the user
     def inc_clicked(self, but_id):
         new_list = []
-        
         for x in but_id:
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
                 
         output_list = [] 
-        
         for x in new_list:
             for y in range(0,7787):
-                
                 text = df.iat[y,genres_col]
                 if (x in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
@@ -111,7 +128,6 @@ class PageTwo(tk.Frame):
     #user wants to find titles that include every button that was clicked
     def create_exc(self, button_identity):
         self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
-        
         self.button.grid(row = 9, column=3, pady=100)     
     
     #this function is called when the "Exclusive" button is clicked, then the
@@ -119,15 +135,12 @@ class PageTwo(tk.Frame):
     #that contain ALL of the items that were selected by the user
     def exc_clicked(self, but_id):
         new_list = []
-        
         for x in but_id:
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
                 
         output_list = []         
-      
         for y in range(0,7787):
-            
             text = df.iat[y,genres_col]
             if all(x in text for x in new_list):
                 output_list.append(df.iat[y,2])
@@ -142,19 +155,22 @@ class PageTwo(tk.Frame):
         button_identities.append(self.button)
                     
     #the creation of the quit button is in this function. the quit button just
-    #allows the user to exit from the recommendation system. we may need to 
-    #create a new quit button for each frame once we put them in frames
+    #allows the user to exit from the organization system. 
     def create_quit(self, master):
-        #self.quit = tk.Button(self, text="Go back to Search by Categories", fg="red", command=lambda: self.master.switch_frame(PageOne)).pack()
-
-        self.quit = tk.Button(self, text="QUIT", fg="red",
-                              command=self.master.destroy)
+        self.quit = tk.Button(self, text="QUIT", fg="red",command=self.master.destroy)
         self.quit.grid(row = 9, column = 4, pady=100)
-        
+    
+    #this function creates a refresh button that can be used to change the
+    #the buttons for the category page
     def create_refresh(self,ran_list,button_identities):
         self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
         self.refresh.grid(row = 8, column = 3, pady=20)
-
+    
+    #this function is called when the refresh button is clicked. It goes 
+    #through the text of each of the existing buttons and goes through
+    #a list of all items to create a remaining_list. The existing buttons
+    #are then destroyed, and new buttons are made from remaining_list. The
+    #refresh and ok buttons are then updated as well.
     def refresh_list(self,ran_list,button_identities):
         remaining_list = ran_list
         for x in button_identities:
@@ -190,8 +206,8 @@ class PageTwo(tk.Frame):
             print("seen all the options")
 
     #this function displays 10 random movie and tv show titles from the 
-    #shows_list based on the categories selected and whether it was inclusive
-    #or exclusive. we use a counter because if there are 0 movies that match
+    #shows_list based on the genres selected and whether it was inclusive
+    #or exclusive. We use a counter because if there are 0 movies that match
     #the user's selection, we need to tell them to make a new selection. 
     def show_titles(self,shows_list):
         newWindow = tk.Toplevel(self.master)
@@ -234,10 +250,13 @@ class PageTwo(tk.Frame):
         infoWindow = tk.Toplevel(self.master)
         infoWindow.title("Information on Selected Show")
         tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
-            
+
+#This new page class is for the country column of the dataset. So once this
+#page is called, it will display buttons for multiple different countries
+#that Netflix titles are offered in            
 class PageThree(tk.Frame):
     
-    def __init__(self, master): #master=None might just be master
+    def __init__(self, master): 
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Country", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -253,7 +272,6 @@ class PageThree(tk.Frame):
             self.create_country_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_ok(button_identities)
-        #self.create_exc(button_identities)
         self.create_refresh(country_list, button_identities)
         
         
@@ -270,62 +288,31 @@ class PageThree(tk.Frame):
         button_name = (button_identities[counter])
         button_name.configure(bg="red")
     
-    #creates the "Inclusive" button which is clicked when the user wants to 
+    #creates the "OK" button which is clicked when the user wants to 
     #find titles that include either of the buttons clicked            
     def create_ok(self, button_identity):
         self.ok = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
-        
         self.ok.grid(row = 9, column=2, pady=100)
     
-    #this function is called when the "Inclusive" button is clicked, then the 
+    #this function is called when the "OK" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
-    #that contain ANY of the items that were selected by the user
+    #that contain ANY of the countries that were selected by the user
     def ok_clicked(self, but_id):
         new_list = []
-        
         for x in but_id:
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
                 
         output_list = [] 
-        
         for x in new_list:
             for y in range(0,7787):
-                
                 text = str(df.iat[y,country_col])
                 if (str(x) in text) and (df.iat[y,2] not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
-    
-    #this function creates the "Exclusive" button which is clicked when the 
-    #user wants to find titles that include every button that was clicked
-    # def create_exc(self, button_identity):
-    #     self.button = tk.Button(self,text="Exclusive",fg="green",command =lambda: self.exc_clicked(button_identity))
         
-    #     self.button.grid(row = 9, column=3, pady=100)     
-    
-    # #this function is called when the "Exclusive" button is clicked, then the
-    # #function will create a new window that shows all of the Netflix titles 
-    # #that contain ALL of the items that were selected by the user
-    # def exc_clicked(self, but_id):
-    #     new_list = []
-        
-    #     for x in but_id:
-    #         if x.cget("bg") == 'red':
-    #             new_list.append(x.cget("text"))
-                
-    #     output_list = []         
-      
-    #     for y in range(0,7787):
-            
-    #         text = str(df.iat[y,country_col])
-    #         if all(x in text for x in new_list):
-    #             output_list.append(df.iat[y,2])
-    #     self.show_titles(output_list)
-    
-    #this function creates the buttons/widgets for the category the user is 
-    #searching by (genre, year released, etc.). It also places the location of
-    #each button on the grid so they look pretty.
+    #this function creates the buttons/widgets for countries. It also places 
+    #the location of each button on the grid so they look pretty.
     def create_country_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.country_clicked(m_title,button_identities,counter))
         row_num = math.floor(counter/7)
@@ -334,22 +321,26 @@ class PageThree(tk.Frame):
             self.button.grid(row=row_num,column=col_num,sticky=tk.SW)
         else:
             self.button.grid(row=row_num,column=col_num,sticky=tk.NE)
-
-        #self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
     #the creation of the quit button is in this function. the quit button just
-    #allows the user to exit from the recommendation system. we may need to 
-    #create a new quit button for each frame once we put them in frames
+    #allows the user to exit from the recommendation system.
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.grid(row = 9, column = 4, pady=100)
-        
+    
+    #this function creates a refresh button that can be used to change the
+    #the buttons for the category page
     def create_refresh(self,ran_list,button_identities):
         self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
         self.refresh.grid(row = 8, column = 3, pady=20)
-
+        
+    #this function is called when the refresh button is clicked. It goes 
+    #through the text of each of the existing buttons and goes through
+    #a list of all items to create a remaining_list. The existing buttons
+    #are then destroyed, and new buttons are made from remaining_list. The
+    #refresh and ok buttons are then updated as well.
     def refresh_list(self,ran_list,button_identities):
         remaining_list = ran_list
         for x in button_identities:
@@ -366,20 +357,16 @@ class PageThree(tk.Frame):
                 needed_range = 42
             else:
                 needed_range = len(remaining_list)
-            #print(needed_range)
             for i in range(0,needed_range):
                 x = remaining_list[i]
                 if (isinstance(x,str) == True) or (isinstance(x,int) == True):
                     self.create_country_widgets(str(x), new_counter, new_button_identities)
                     new_counter += 1
-               
                 self.refresh.destroy()
                 self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, new_button_identities))
                 self.refresh.grid(row = 8, column = 3, pady=20)
-            
             self.ok.destroy()
             self.create_ok(new_button_identities)
-            
         else:
             tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
             self.refresh.destroy()
@@ -388,7 +375,7 @@ class PageThree(tk.Frame):
             print("seen all the options")
              
     #this function displays 10 random movie and tv show titles from the 
-    #shows_list based on the categories selected and whether it was inclusive
+    #shows_list based on the countries selected and whether it was inclusive
     #or exclusive. we use a counter because if there are 0 movies that match
     #the user's selection, we need to tell them to make a new selection. 
     def show_titles(self,shows_list):
@@ -410,7 +397,7 @@ class PageThree(tk.Frame):
             self.create_show_titles(newWindow,str(x),new_counter,new_button_identities)
             new_counter +=1
             
-    #this function creates a new window to display the movie/tv info. we do
+    #this function creates a new window to display the movie/tv info. We do
     #this by calling the show_title_info function and passing in the newWindow,
     #counter, and button_identity     
     def create_show_titles(self,newWindow,show_title,counter,button_identity):
@@ -420,7 +407,7 @@ class PageThree(tk.Frame):
     
     #this is to display the information of the title selected (all categories
     #are shown including actors, genres, year released, director, description,
-    #and more). we used a for loop to search the entire list of titles and 
+    #and more). We used a for loop to search the entire list of titles and 
     #compare each to the button_identity to find the correct title to display.
     def show_title_info(self,newWindow,counter,button_identity):
         button_name = (button_identity[counter])
@@ -437,10 +424,12 @@ class PageThree(tk.Frame):
         infoWindow = tk.Toplevel(self.master)
         infoWindow.title("Information on Selected Show")
         tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
-    
+
+#This page is for the year released category. The years are sorted in 
+#ascending order.
 class PageFour(tk.Frame):
 
-    def __init__(self, master): #master=None might just be master
+    def __init__(self, master): 
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         master.rowconfigure(0,weight=1)
@@ -459,9 +448,7 @@ class PageFour(tk.Frame):
             self.create_year_widgets(str(x), counter, button_identities)
             counter = counter+1
         self.create_ok(button_identities)
-        #self.create_exc(button_identities)
         self.create_refresh(year_list, button_identities)
-        
         
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
@@ -472,11 +459,10 @@ class PageFour(tk.Frame):
             text = str(df.iat[x,release_col])
             if user_input in text:
                 output_list.append(df.iat[x,2])
-            
         button_name = (button_identities[counter])
         button_name.configure(bg="red")
     
-    #creates the "Inclusive" button which is clicked when the user wants to 
+    #creates the "OK" button which is clicked when the user wants to 
     #find titles that include either of the buttons clicked            
     def create_ok(self, button_identity):
         self.ok = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
@@ -488,24 +474,20 @@ class PageFour(tk.Frame):
     #that contain ANY of the items that were selected by the user
     def ok_clicked(self, but_id):
         new_list = []
-        
         for x in but_id:
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
                 
         output_list = [] 
-        
         for x in new_list:
             for y in range(0,7787):
-                
                 text = str(df.iat[y,release_col])
                 if (x in text) and (str(df.iat[y,2]) not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
         
-    #this function creates the buttons/widgets for the category the user is 
-    #searching by (genre, year released, etc.). It also places the location of
-    #each button on the grid so they look pretty.
+    #this function creates the buttons/widgets for the year released category. 
+    #It also places the location of each button on the grid so they look pretty.
     def create_year_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.year_clicked(m_title,button_identities,counter))
         row_num = math.floor(counter/7)
@@ -514,21 +496,26 @@ class PageFour(tk.Frame):
             self.button.grid(row=row_num,column=col_num,sticky=tk.SW)
         else:
             self.button.grid(row=row_num,column=col_num,sticky=tk.NE)
-        #self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
     #the creation of the quit button is in this function. the quit button just
-    #allows the user to exit from the recommendation system. we may need to 
-    #create a new quit button for each frame once we put them in frames
+    #allows the user to exit from the recommendation system. 
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.grid(row = 9, column = 4, pady=100)
-        
+    
+    #this function creates a refresh button that can be used to change the
+    #the buttons for the category page
     def create_refresh(self,ran_list,button_identities):
         self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
         self.refresh.grid(row = 8, column = 3, pady=20)
-
+    
+    #this function is called when the refresh button is clicked. It goes 
+    #through the text of each of the existing buttons and goes through
+    #a list of all items to create a remaining_list. The existing buttons
+    #are then destroyed, and new buttons are made from remaining_list. The
+    #refresh and ok buttons are then updated as well.
     def refresh_list(self,ran_list,button_identities):
         remaining_list = ran_list
         for x in button_identities:
@@ -586,7 +573,7 @@ class PageFour(tk.Frame):
             self.create_show_titles(newWindow,x,new_counter,new_button_identities)
             new_counter +=1
             
-    #this function creates a new window to display the movie/tv info. we do
+    #this function creates a new window to display the movie/tv info. We do
     #this by calling the show_title_info function and passing in the newWindow,
     #counter, and button_identity     
     def create_show_titles(self,newWindow,show_title,counter,button_identity):
@@ -614,9 +601,11 @@ class PageFour(tk.Frame):
         infoWindow.title("Information on Selected Show")
         tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
     
+#This last page class is for the directors column of the data set. This is the
+#largest list of the four pages.
 class PageFive(tk.Frame):
 
-    def __init__(self, master): #master=None might just be master
+    def __init__(self, master): 
         tk.Frame.__init__(self, master)
         tk.Frame.configure(self,bg='red')
         tk.Label(self, text="Search by Director", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
@@ -635,7 +624,6 @@ class PageFive(tk.Frame):
         self.create_ok(button_identities)
         self.create_refresh(director_list, button_identities)
         
-        
     #this function creates an output list of Netflix titles that fit the
     #selection made and then turns the button that was clicked red
     def director_clicked(self, m_title, button_identities, counter):
@@ -649,53 +637,53 @@ class PageFive(tk.Frame):
         button_name = (button_identities[counter])
         button_name.configure(bg="red")
     
-    #creates the "Inclusive" button which is clicked when the user wants to 
+    #creates the "OK" button which is clicked when the user wants to 
     #find titles that include either of the buttons clicked            
     def create_ok(self, button_identity):
         self.ok = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
-        
         self.ok.grid(row = 9, column=2, pady=100)
     
-    #this function is called when the "Inclusive" button is clicked, then the 
+    #this function is called when the "OK" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
     #that contain ANY of the items that were selected by the user
     def ok_clicked(self, but_id):
         new_list = []
-        
         for x in but_id:
             if x.cget("bg") == 'red':
                 new_list.append(x.cget("text"))
                 
         output_list = [] 
-        
         for x in new_list:
             for y in range(0,7787):
-                
                 text = str(df.iat[y,director_col])
                 if (x in text) and (str(df.iat[y,2]) not in output_list):
                     output_list.append(df.iat[y,2])
         self.show_titles(output_list)
     
-    #this function creates the buttons/widgets for the category the user is 
-    #searching by (genre, year released, etc.). It also places the location of
-    #each button on the grid so they look pretty.
+    #this function creates the buttons/widgets for the directors category. 
+    #It also places the location of each button on the grid so they look pretty.
     def create_director_widgets(self, m_title, counter, button_identities):
         self.button = tk.Button(self,text=str(m_title),command =lambda: self.director_clicked(m_title,button_identities,counter))
         self.button.grid(row= counter%6, column=counter%7)
         button_identities.append(self.button)
                     
-    #the creation of the quit button is in this function. the quit button just
-    #allows the user to exit from the recommendation system. we may need to 
-    #create a new quit button for each frame once we put them in frames
+    #the creation of the quit button is in this function. 
     def create_quit(self):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.grid(row = 9, column = 4, pady=100)
-        
+    
+    #this function creates a refresh button that can be used to change the
+    #the buttons for the category page
     def create_refresh(self,ran_list,button_identities):
         self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
         self.refresh.grid(row = 8, column = 3, pady=20)
-
+        
+    #this function is called when the refresh button is clicked. It goes 
+    #through the text of each of the existing buttons and goes through
+    #a list of all items to create a remaining_list. The existing buttons
+    #are then destroyed, and new buttons are made from remaining_list. The
+    #refresh and ok buttons are then updated as well.
     def refresh_list(self,ran_list,button_identities):
         remaining_list = ran_list
         for x in button_identities:
@@ -764,7 +752,7 @@ class PageFive(tk.Frame):
     
     #this is to display the information of the title selected (all categories
     #are shown including actors, genres, year released, director, description,
-    #and more). we used a for loop to search the entire list of titles and 
+    #and more). We used a for loop to search the entire list of titles and 
     #compare each to the button_identity to find the correct title to display.
     def show_title_info(self,newWindow,counter,button_identity):
         button_name = (button_identity[counter])
@@ -782,7 +770,9 @@ class PageFive(tk.Frame):
         infoWindow.title("Information on Selected Show")
         tk.Label(infoWindow,text=("Here is your information:\n" + info_text)).pack()
     
-
+#this function is used to create a unique list of all the items in a 
+#particular category. It takes all of the entries in the data set for a
+#specific column and loops for repeats or empty entries.
 def category_extraction(dataF, col_num):
 #loop through pandas DataFrame column "col_num" and make a list of all entries
     list_items = []
@@ -802,18 +792,17 @@ def category_extraction(dataF, col_num):
         else:
             if (list_items[x] not in category_list):
                 category_list.append(list_items[x])
-    
     category_list = [x for x in category_list if x == x]
     for x in category_list:
         if (x == ''):
             category_list.remove(x)
-    
+
     return(category_list)
 
-
-
+#initializing the Kaggle Netflix data set 
 df = pd.read_csv (r'https://raw.githubusercontent.com/kennedywaite/CLPS0950FinalProject/main/netflix_titles.csv')
-        
+
+#initializing the column numbers for each category  
 genres_col = 10
 director_col = 3
 actor_col = 4
@@ -821,20 +810,14 @@ country_col = 5
 release_col = 7
 duration_col = 9
 
-
+#calling category_extraction to get a unique list of items for each category
 genre_list = category_extraction(df,genres_col)
 director_list = category_extraction(df,director_col)
 actor_list = category_extraction(df,actor_col)
 country_list = category_extraction(df,country_col)
 year_list = sorted(category_extraction(df,release_col))
 
-current_list = []
-button_identities = [] 
-
-#root = tk.Tk()
-#app = Application()
-#app = Application(df, genre_list, button_identities, master=root)
-
+#calling the class Application to create the window for the interface
 if __name__ == "__main__":
     app = Application()
     app.mainloop()

@@ -1,5 +1,8 @@
-#main file to call table extraction functions
-
+"""
+DO NOT RUN THIS FILE
+This file was used as a test to look at the unique lists for each category.
+We used a lot of this code in the main file.
+"""
 import pandas as pd
 import math
 

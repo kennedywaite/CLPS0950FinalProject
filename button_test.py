@@ -1,3 +1,7 @@
+"""
+DO NOT RUN THIS FILE
+This file was used to test placing buttons on a window
+"""
 import tkinter as tk
 import pandas as pd
 import random

@@ -1,3 +1,9 @@
+"""
+DO NOT RUN THIS FILE
+This file was just used to test out user matrices and making input prompts that
+will let users register/log in. We didn't end up getting to this part and
+focused more on the base
+"""
 #trying to test out creating new users and doing similarity indexes between
 #users to make an algorithm for a Netflix recommendation engine
 import numpy as np
