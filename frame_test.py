@@ -273,9 +273,9 @@ class PageThree(tk.Frame):
     #creates the "Inclusive" button which is clicked when the user wants to 
     #find titles that include either of the buttons clicked            
     def create_ok(self, button_identity):
-        self.button = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
+        self.ok = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
         
-        self.button.grid(row = 9, column=2, pady=100)
+        self.ok.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -374,8 +374,12 @@ class PageThree(tk.Frame):
                     new_counter += 1
                
                 self.refresh.destroy()
-                self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
+                self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, new_button_identities))
                 self.refresh.grid(row = 8, column = 3, pady=20)
+            
+            self.ok.destroy()
+            self.create_ok(new_button_identities)
+            
         else:
             tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
             self.refresh.destroy()
@@ -475,9 +479,9 @@ class PageFour(tk.Frame):
     #creates the "Inclusive" button which is clicked when the user wants to 
     #find titles that include either of the buttons clicked            
     def create_ok(self, button_identity):
-        self.button = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
+        self.ok = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
         
-        self.button.grid(row = 9, column=2, pady=100)
+        self.ok.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -530,11 +534,9 @@ class PageFour(tk.Frame):
         for x in button_identities:
            existing_button = x.cget("text")
            for y in remaining_list:
-               print(type(y))
                if (str(y) == str(existing_button)) and ((isinstance(y,str) == True) or (isinstance(y,numpy.int64) == True)):
                    remaining_list.remove(y)
            x.destroy()
-           print(remaining_list)
         if (len(remaining_list) != 0):
             button_identities = []
             new_counter = 0
@@ -552,9 +554,11 @@ class PageFour(tk.Frame):
                 self.refresh.destroy()
                 self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
                 self.refresh.grid(row = 8, column = 3, pady=20)
+            
+            self.ok.destroy()
+            self.create_ok(button_identities)
         else:
             tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
-            print("seen all the options")
             self.refresh.destroy()
             self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command = self.master.destroy)
             self.refresh.grid(row = 8, column = 3, pady=20)
@@ -648,9 +652,9 @@ class PageFive(tk.Frame):
     #creates the "Inclusive" button which is clicked when the user wants to 
     #find titles that include either of the buttons clicked            
     def create_ok(self, button_identity):
-        self.button = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
+        self.ok = tk.Button(self,text="OK",fg="blue",command =lambda: self.ok_clicked(button_identity))
         
-        self.button.grid(row = 9, column=2, pady=100)
+        self.ok.grid(row = 9, column=2, pady=100)
     
     #this function is called when the "Inclusive" button is clicked, then the 
     #function will create a new window that shows all of the Netflix titles
@@ -718,6 +722,8 @@ class PageFive(tk.Frame):
                 self.refresh.destroy()
                 self.refresh = tk.Button(self, text='REFRESH', font=('Helvetica', 18, "bold"), fg = 'purple', command =lambda: self.refresh_list(ran_list, button_identities))
                 self.refresh.grid(row = 8, column = 3, pady=20)
+            self.ok.destroy()
+            self.create_ok(button_identities)
         else:
             tk.Label(self,text="You've seen all the options. Press quit to restart program.").grid(row=0,column=3,pady=10)
             self.refresh.destroy()
